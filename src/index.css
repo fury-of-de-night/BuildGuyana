@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background-50: 0.97 0.01 60;
+    --background-100: 0.94 0.02 58;
+    --background-200: 0.88 0.03 56;
+    --background-300: 0.80 0.04 54;
+    --background-400: 0.70 0.05 52;
+    --background-500: 0.60 0.06 50;
+    --background-600: 0.50 0.07 48;
+    --background-700: 0.40 0.08 46;
+    --background-800: 0.30 0.09 44;
+    --background-900: 0.20 0.10 42;
+    --background-950: 0.10 0.11 40;
+
+    --primary-50: 0.95 0.03 45;
+    --primary-100: 0.90 0.06 44;
+    --primary-200: 0.82 0.10 43;
+    --primary-300: 0.74 0.14 42;
+    --primary-400: 0.66 0.18 41;
+    --primary-500: 0.58 0.22 40;
+    --primary-600: 0.50 0.20 38;
+    --primary-700: 0.42 0.18 36;
+    --primary-800: 0.34 0.16 34;
+    --primary-900: 0.26 0.14 32;
+    --primary-950: 0.18 0.12 30;
+
+    --accent-50: 0.95 0.04 55;
+    --accent-100: 0.88 0.08 54;
+    --accent-200: 0.80 0.12 53;
+    --accent-300: 0.72 0.16 52;
+    --accent-400: 0.64 0.20 51;
+    --accent-500: 0.56 0.24 50;
+    --accent-600: 0.48 0.22 48;
+    --accent-700: 0.40 0.20 46;
+    --accent-800: 0.32 0.18 44;
+    --accent-900: 0.24 0.16 42;
+    --accent-950: 0.16 0.14 40;
+
+    --secondary-50: 0.95 0.02 65;
+    --secondary-100: 0.90 0.04 64;
+    --secondary-200: 0.82 0.06 63;
+    --secondary-300: 0.74 0.08 62;
+    --secondary-400: 0.66 0.10 61;
+    --secondary-500: 0.58 0.12 60;
+    --secondary-600: 0.50 0.11 58;
+    --secondary-700: 0.42 0.10 56;
+    --secondary-800: 0.34 0.09 54;
+    --secondary-900: 0.26 0.08 52;
+    --secondary-950: 0.18 0.07 50;
+
+    --foreground-50: 0.95 0.01 55;
+    --foreground-100: 0.88 0.02 53;
+    --foreground-200: 0.78 0.03 51;
+    --foreground-300: 0.68 0.04 49;
+    --foreground-400: 0.58 0.05 47;
+    --foreground-500: 0.48 0.06 45;
+    --foreground-600: 0.38 0.07 43;
+    --foreground-700: 0.28 0.08 41;
+    --foreground-800: 0.20 0.09 39;
+    --foreground-900: 0.14 0.10 37;
+    --foreground-950: 0.08 0.11 35;
+
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+    --font-label: 'Space Grotesk', sans-serif;
+  }
+}
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+    background-color: oklch(var(--background-50));
+    color: oklch(var(--foreground-900));
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  pointer-events: none;
+}
+
+@media print {
+  nav,
+  footer {
+    display: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #ffffff !important;
+  }
+}
