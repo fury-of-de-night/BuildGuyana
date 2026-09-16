@@ -39,7 +39,7 @@ export function AuthGuard({ children, requiredRole }: AuthGuardProps) {
   }
 
   // Admin dashboard — only accessible to admin
-  if (requiredRole === 'admin' && profile && user.email !== 'fury65shots@gmail.com') {
+  if (requiredRole === 'admin' && profile && user.email === (process.env.ADMIN_EMAIL || 'admin@buildguyana.gy')) {
     return <Navigate to="/" replace />;
   }
 

@@ -10,6 +10,20 @@ import Footer from '@/components/feature/Footer';
 import { REGIONS } from '@/mocks/locations';
 import { CATEGORY_NAMES } from '@/mocks/categories';
 
+import RoleSelectionStep from './components/RoleSelectionStep';
+import ProfilePhotoStep from './components/ProfilePhotoStep';
+import ContactInfoStep from './components/ContactInfoStep';
+import BusinessTypeStep from './components/BusinessTypeStep';
+import TradeCategoryStep from './components/TradeCategoryStep';
+import SecondaryTradesStep from './components/SecondaryTradesStep';
+import ExperienceStep from './components/ExperienceStep';
+import TradeLicenseStep from './components/TradeLicenseStep';
+import IDDocumentStep from './components/IDDocumentStep';
+import BusinessDocsStep from './components/BusinessDocsStep';
+import ComplianceDocsStep from './components/ComplianceDocsStep';
+import SuccessModal from './components/SuccessModal';
+import PolicyModal from './components/PolicyModal';
+
 type BusinessType = '' | 'sole_proprietor' | 'registered_company';
 
 const REGULATED_TRADES = ['Electrical Work', 'Plumbing'];
@@ -688,71 +702,13 @@ export default function RegisterPage() {
 
   if (showSuccessModal) {
     return (
-      <div className="min-h-screen flex flex-col bg-background-50">
-        <Navbar />
-        <main className="flex-1 flex items-center justify-center px-4 pt-24 md:pt-28 pb-12">
-          <div className="w-full max-w-md">
-            <div className="bg-white border border-background-200/70 rounded-lg p-8 text-center">
-              <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-primary-100 flex items-center justify-center">
-                <i className="ri-mail-send-line text-2xl text-primary-600" />
-              </div>
-              <h2 className="font-heading text-xl text-foreground-900 mb-2">Check Your Email</h2>
-              <p className="text-sm text-foreground-600 mb-1">
-                We sent a confirmation email to
-              </p>
-              <p className="text-sm font-medium text-foreground-900 mb-4 break-all">
-                {registeredEmail}
-              </p>
-              <p className="text-sm text-foreground-500 mb-6">
-                Click the link in the email to verify your account, then sign in to get started.
-              </p>
-
-              {role === 'tradesperson' && (
-                <div className="mb-6 p-4 bg-background-100 rounded-md text-left">
-                  <p className="text-sm font-medium text-foreground-800 mb-1">
-                    <i className="ri-information-line mr-1.5 text-foreground-500" />
-                    About Verification
-                  </p>
-                  <p className="text-xs text-foreground-600">
-                    After confirming your email, our team will review your documents. You can browse jobs right away, but your <strong>Verified</strong> badge will show as pending until approved — usually within a few days.
-                  </p>
-                </div>
-              )}
-
-              {resentMessage && (
-                <div className={`mb-5 p-3 rounded-md text-sm ${
-                  resentMessage.includes('resent') || resentMessage.includes('Confirmation email')
-                    ? 'bg-green-50 border border-green-200 text-green-700'
-                    : 'bg-accent-100/80 border border-accent-300/60 text-accent-900'
-                }`}>
-                  {resentMessage}
-                </div>
-              )}
-
-              <div className="space-y-3">
-                <button
-                  onClick={handleResendEmail}
-                  disabled={resending}
-                  className="w-full py-2.5 px-4 border border-background-200/70 text-foreground-700 text-sm font-label font-medium rounded-md hover:bg-background-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap cursor-pointer"
-                >
-                  {resending ? 'Sending...' : 'Resend Confirmation Email'}
-                </button>
-                <Link
-                  to="/login"
-                  className="block w-full py-2.5 px-4 bg-primary-500 hover:bg-primary-600 text-background-50 text-sm font-label font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer text-center"
-                >
-                  Go to Sign In
-                </Link>
-              </div>
-
-              <p className="mt-5 text-xs text-foreground-400">
-                Didn&apos;t receive the email? Check your spam folder or try a different email address.
-              </p>
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
+      <SuccessModal
+        email={registeredEmail}
+        role={role}
+        resending={resending}
+        resentMessage={resentMessage}
+        onResendEmail={handleResendEmail}
+      />
     );
   }
 
@@ -796,43 +752,7 @@ export default function RegisterPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               {step === 1 && (
                 <>
-                  <div>
-                    <label className="block text-sm font-medium text-foreground-700 mb-2 font-label">
-                      I am a...
-                    </label>
-                    <div className="grid grid-cols-2 gap-3">
-                      <button
-                        type="button"
-                        onClick={() => setRole('project_owner')}
-                        className={`p-4 border-2 rounded-md text-center transition-colors cursor-pointer ${
-                          role === 'project_owner'
-                            ? 'border-primary-500 bg-primary-50'
-                            : 'border-background-200/70 hover:border-background-300'
-                        }`}
-                      >
-                        <div className="w-10 h-10 mx-auto mb-2 flex items-center justify-center">
-                          <i className="ri-home-4-line text-xl text-foreground-700" />
-                        </div>
-                        <span className="block text-sm font-medium text-foreground-800 whitespace-nowrap">Project Owner</span>
-                        <span className="block text-xs text-foreground-500 mt-1">Post jobs, find tradespeople</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setRole('tradesperson')}
-                        className={`p-4 border-2 rounded-md text-center transition-colors cursor-pointer ${
-                          role === 'tradesperson'
-                            ? 'border-primary-500 bg-primary-50'
-                            : 'border-background-200/70 hover:border-background-300'
-                        }`}
-                      >
-                        <div className="w-10 h-10 mx-auto mb-2 flex items-center justify-center">
-                          <i className="ri-tools-line text-xl text-foreground-700" />
-                        </div>
-                        <span className="block text-sm font-medium text-foreground-800 whitespace-nowrap">Tradesperson</span>
-                        <span className="block text-xs text-foreground-500 mt-1">Get leads, grow your business</span>
-                      </button>
-                    </div>
-                  </div>
+                  <RoleSelectionStep role={role} onRoleChange={setRole} />
 
                   <div>
                     <label htmlFor="fullName" className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
@@ -849,34 +769,10 @@ export default function RegisterPage() {
                     />
                   </div>
 
-                  {/* Profile Photo */}
-                  <div>
-                    <label className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                      Profile Photo (Optional)
-                    </label>
-                    <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-full overflow-hidden bg-background-100 border-2 border-background-200/70 flex-shrink-0">
-                        {profilePhotoPreview ? (
-                          <img src={profilePhotoPreview} alt="Preview" className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <i className="ri-user-line text-xl text-foreground-400" />
-                          </div>
-                        )}
-                      </div>
-                      <div>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleProfilePhotoChange}
-                          className="w-full text-sm text-foreground-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-secondary-100 file:text-secondary-900 hover:file:bg-secondary-200 file:cursor-pointer cursor-pointer"
-                        />
-                        <p className="text-xs text-foreground-400 mt-1">
-                          You can also add or change your photo later in your profile settings.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  <ProfilePhotoStep
+                    preview={profilePhotoPreview}
+                    onFileChange={(file: File | null) => handleProfilePhotoChange({ target: { files: file ? [file] : [] } } as React.ChangeEvent<HTMLInputElement>)}
+                  />
 
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
@@ -922,623 +818,94 @@ export default function RegisterPage() {
 
               {step === 2 && (
                 <>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                      WhatsApp Number <span className="text-accent-500">*</span>
-                    </label>
-                    <p className="text-xs text-foreground-500 mb-1.5">
-                      Please provide the number linked to your WhatsApp account. This is how tradespeople will contact you.
-                    </p>
-                    <div className="flex">
-                      <span className="inline-flex items-center px-3 text-sm text-foreground-500 bg-background-100 border border-background-200/70 border-r-0 rounded-l-md">
-                        +592
-                      </span>
-                      <input
-                        id="phone"
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-                        required
-                        className="w-full px-4 py-2.5 text-sm border border-background-200/70 rounded-r-md bg-background-50 text-foreground-900 placeholder:text-foreground-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-400 transition-colors"
-                        placeholder="6123456"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="region" className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                      Region in Guyana
-                    </label>
-                    <select
-                      id="region"
-                      value={region}
-                      onChange={(e) => setRegion(e.target.value)}
-                      required
-                      className="w-full px-4 py-2.5 text-sm border border-background-200/70 rounded-md bg-background-50 text-foreground-900 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-400 transition-colors cursor-pointer"
-                    >
-                      <option value="">Select your region</option>
-                      {REGIONS.map((r) => (
-                        <option key={r.value} value={r.value}>
-                          {r.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label htmlFor="location" className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                      City / Town
-                    </label>
-                    <input
-                      id="location"
-                      type="text"
-                      value={location}
-                      onChange={(e) => setLocation(e.target.value)}
-                      className="w-full px-4 py-2.5 text-sm border border-background-200/70 rounded-md bg-background-50 text-foreground-900 placeholder:text-foreground-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-400 transition-colors"
-                      placeholder="e.g. Georgetown, New Amsterdam"
-                    />
-                  </div>
+                  <ContactInfoStep
+                    phone={phone}
+                    region={region}
+                    location={location}
+                    onPhoneChange={(v) => setPhone(v.replace(/\D/g, ''))}
+                    onRegionChange={setRegion}
+                    onLocationChange={setLocation}
+                    regions={REGIONS}
+                  />
 
                   {role === 'tradesperson' && (
                     <>
-                      {/* === BUSINESS TYPE SELECTOR === */}
-                      <div className="pt-4 border-t border-background-200/70">
-                        <label className="block text-sm font-medium text-foreground-700 mb-2 font-label">
-                          Business Type
-                        </label>
-                        <div className="grid grid-cols-2 gap-3 mb-1">
-                          <button
-                            type="button"
-                            onClick={() => handleBusinessTypeChange('sole_proprietor')}
-                            className={`p-4 border-2 rounded-md text-center transition-colors cursor-pointer ${
-                              businessType === 'sole_proprietor'
-                                ? 'border-primary-500 bg-primary-50'
-                                : 'border-background-200/70 hover:border-background-300'
-                            }`}
-                          >
-                            <div className="w-9 h-9 mx-auto mb-2 flex items-center justify-center">
-                              <i className="ri-user-line text-lg text-foreground-700" />
-                            </div>
-                            <span className="block text-sm font-medium text-foreground-800 whitespace-nowrap">Sole Proprietor</span>
-                            <span className="block text-xs text-foreground-500 mt-1">Independent tradesperson</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleBusinessTypeChange('registered_company')}
-                            className={`p-4 border-2 rounded-md text-center transition-colors cursor-pointer ${
-                              businessType === 'registered_company'
-                                ? 'border-primary-500 bg-primary-50'
-                                : 'border-background-200/70 hover:border-background-300'
-                            }`}
-                          >
-                            <div className="w-9 h-9 mx-auto mb-2 flex items-center justify-center">
-                              <i className="ri-building-line text-lg text-foreground-700" />
-                            </div>
-                            <span className="block text-sm font-medium text-foreground-800 whitespace-nowrap">Registered Company</span>
-                            <span className="block text-xs text-foreground-500 mt-1">Organization / business entity</span>
-                          </button>
-                        </div>
-                        {!businessType && (
-                          <p className="text-xs text-foreground-400 mt-2">
-                            Please select your business type to continue. This determines what documents are required.
-                          </p>
-                        )}
-                      </div>
+                      <BusinessTypeStep
+                        businessType={businessType}
+                        companyName={companyName}
+                        onBusinessTypeChange={handleBusinessTypeChange}
+                        onCompanyNameChange={setCompanyName}
+                      />
 
-                      {/* === COMPANY NAME (Registered Company only) === */}
-                      {businessType === 'registered_company' && (
-                        <div className="pl-4 border-l-2 border-primary-200 space-y-3">
-                          <div>
-                            <label htmlFor="companyName" className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                              Company / Organization Name <span className="text-accent-500">*</span>
-                            </label>
-                            <input
-                              id="companyName"
-                              type="text"
-                              value={companyName}
-                              onChange={(e) => setCompanyName(e.target.value)}
-                              required
-                              className="w-full px-4 py-2.5 text-sm border border-background-200/70 rounded-md bg-background-50 text-foreground-900 placeholder:text-foreground-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-400 transition-colors"
-                              placeholder="e.g. Singh Construction Services Ltd."
-                            />
-                          </div>
-                        </div>
-                      )}
+                      <TradeCategoryStep
+                        category={category}
+                        otherTradeDescription={otherTradeDescription}
+                        onCategoryChange={(v) => { setCategory(v); setOtherTradeDescription(''); }}
+                        onOtherTradeDescriptionChange={setOtherTradeDescription}
+                      />
 
-                      {/* === PRIMARY TRADE === */}
-                      <div>
-                        <label htmlFor="category" className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                          Primary Trade Category
-                        </label>
-                        <select
-                          id="category"
-                          value={category}
-                          onChange={(e) => { setCategory(e.target.value); setOtherTradeDescription(''); }}
-                          required
-                          className="w-full px-4 py-2.5 text-sm border border-background-200/70 rounded-md bg-background-50 text-foreground-900 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-400 transition-colors cursor-pointer"
-                        >
-                          <option value="">Select your trade</option>
-                          {CATEGORY_NAMES.filter((n) => n !== 'Other Trade').map((cat) => (
-                            <option key={cat} value={cat}>{cat}</option>
-                          ))}
-                          <option value="Other Trade">Other Trade</option>
-                        </select>
-                      </div>
+<SecondaryTradesStep
+                        secondaryTrades={secondaryTrades}
+                        secondaryDropdownOpen={secondaryDropdownOpen}
+                        selectedCategory={category}
+                        maxSecondaryTrades={maxSecondaryTrades}
+                        onToggleTrade={toggleSecondaryTrade}
+                        onDropdownToggle={() => setSecondaryDropdownOpen(!secondaryDropdownOpen)}
+                      />
 
-                      {category === 'Other Trade' && (
-                        <div>
-                          <label htmlFor="otherTradeDesc" className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                            Describe Your Trade <span className="text-accent-500">*</span>
-                          </label>
-                          <textarea
-                            id="otherTradeDesc"
-                            value={otherTradeDescription}
-                            onChange={(e) => setOtherTradeDescription(e.target.value)}
-                            required
-                            maxLength={500}
-                            rows={3}
-                            className="w-full px-4 py-2.5 text-sm border border-background-200/70 rounded-md bg-background-50 text-foreground-900 placeholder:text-foreground-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-400 transition-colors resize-vertical"
-                            placeholder="Please describe your trade in detail. This will be reviewed by our admin team during verification. (e.g. Solar panel installation, pest control, floor polishing...)"
-                          />
-                          <p className="text-xs text-foreground-400 mt-1">
-                            Trade descriptions will be reviewed by the admin team before your profile is verified.
-                          </p>
-                        </div>
-                      )}
+                      <ExperienceStep
+                        yearsExperience={yearsExperience}
+                        onYearsExperienceChange={setYearsExperience}
+                      />
 
-                      {/* === SECONDARY TRADES === */}
-                      <div>
-                        <label className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                          Secondary Trades (Optional — up to {maxSecondaryTrades})
-                        </label>
-                        <p className="text-xs text-foreground-500 mb-2">
-                          {businessType === 'registered_company'
-                            ? 'As a registered company, you can select up to 50 trade categories.'
-                            : 'Select additional skills you offer. This helps you appear in more search results.'}
-                        </p>
+                      <TradeLicenseStep
+                        category={category}
+                        tradeLicenseNumber={tradeLicenseNumber}
+                        tradeLicenseDoc={tradeLicenseDoc}
+                        regulatedTrades={REGULATED_TRADES}
+                        onNumberChange={setTradeLicenseNumber}
+                        onDocChange={setTradeLicenseDoc}
+                      />
 
-                        {secondaryTrades.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5 mb-2">
-                            {secondaryTrades.map((trade) => (
-                              <span key={trade} className="inline-flex items-center gap-1 px-2 py-0.5 bg-primary-50 text-primary-700 text-xs font-label rounded-full border border-primary-200/70">
-                                {trade}
-                                <button
-                                  type="button"
-                                  onClick={() => toggleSecondaryTrade(trade)}
-                                  className="w-3.5 h-3.5 flex items-center justify-center cursor-pointer"
-                                >
-                                  <i className="ri-close-line text-xs" />
-                                </button>
-                              </span>
-                            ))}
-                          </div>
-                        )}
-
-                        <div className="relative">
-                          <button
-                            type="button"
-                            onClick={() => setSecondaryDropdownOpen(!secondaryDropdownOpen)}
-                            className="w-full px-4 py-2.5 text-sm border border-background-200/70 rounded-md bg-background-50 text-foreground-900 text-left focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-400 transition-colors cursor-pointer flex items-center justify-between"
-                          >
-                            <span className={secondaryTrades.length === 0 ? 'text-foreground-400' : 'text-foreground-900'}>
-                              {secondaryTrades.length === 0 ? 'Select additional trades...' : `${secondaryTrades.length} selected`}
-                            </span>
-                            <i className={`ri-arrow-down-s-line text-foreground-400 transition-transform ${secondaryDropdownOpen ? 'rotate-180' : ''}`} />
-                          </button>
-                          {secondaryDropdownOpen && (
-                            <div className="absolute z-10 mt-1 w-full bg-white border border-background-200/70 rounded-md shadow-lg max-h-48 overflow-y-auto">
-                              {CATEGORY_NAMES.filter((n) => n !== category).map((tradeName) => {
-                                const isSelected = secondaryTrades.includes(tradeName);
-                                const isDisabled = !isSelected && secondaryTrades.length >= maxSecondaryTrades;
-                                return (
-                                  <button
-                                    key={tradeName}
-                                    type="button"
-                                    onClick={() => toggleSecondaryTrade(tradeName)}
-                                    disabled={isDisabled}
-                                    className={`w-full text-left px-4 py-2 text-sm flex items-center justify-between transition-colors cursor-pointer ${
-                                      isSelected
-                                        ? 'bg-primary-50 text-primary-700'
-                                        : isDisabled
-                                          ? 'text-foreground-300 cursor-not-allowed'
-                                          : 'text-foreground-700 hover:bg-background-50'
-                                    }`}
-                                  >
-                                    <span>{tradeName}</span>
-                                    {isSelected && (
-                                      <span className="w-4 h-4 flex items-center justify-center">
-                                        <i className="ri-check-line text-primary-500 text-sm" />
-                                      </span>
-                                    )}
-                                    {isDisabled && (
-                                      <span className="text-xs text-foreground-400">max reached</span>
-                                    )}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          )}
-                          {secondaryDropdownOpen && (
-                            <div className="fixed inset-0 z-0" onClick={() => setSecondaryDropdownOpen(false)} />
-                          )}
-                        </div>
-                      </div>
-
-                      {/* === YEARS OF EXPERIENCE === */}
-                      <div>
-                        <label htmlFor="yearsExperience" className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                          Years of Experience
-                        </label>
-                        <input
-                          id="yearsExperience"
-                          type="number"
-                          min="0"
-                          max="60"
-                          value={yearsExperience}
-                          onChange={(e) => setYearsExperience(e.target.value)}
-                          className="w-full px-4 py-2.5 text-sm border border-background-200/70 rounded-md bg-background-50 text-foreground-900 placeholder:text-foreground-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-400 transition-colors"
-                          placeholder="e.g. 5"
-                        />
-                      </div>
-
-                      {/* === TRADE LICENSE VERIFICATION (regulated trades) === */}
-                      {role === 'tradesperson' && REGULATED_TRADES.includes(category) && (
-                        <div className="pt-3 border-t border-background-200/70">
-                          <label className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                            Trade License Verification <span className="text-accent-500">*</span>
-                          </label>
-                          <p className="text-xs text-foreground-500 mb-3">
-                            {category} is a regulated trade in Guyana. Please provide your trade license details for verification.
-                          </p>
-
-                          <div className="mb-3">
-                            <label htmlFor="tradeLicenseNumber" className="block text-xs font-medium text-foreground-700 mb-1.5 font-label">
-                              Trade License Number <span className="text-accent-500">*</span>
-                            </label>
-                            <input
-                              id="tradeLicenseNumber"
-                              type="text"
-                              value={tradeLicenseNumber}
-                              onChange={(e) => setTradeLicenseNumber(e.target.value)}
-                              required
-                              className="w-full px-4 py-2.5 text-sm border border-background-200/70 rounded-md bg-background-50 text-foreground-900 placeholder:text-foreground-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-400 transition-colors"
-                              placeholder="e.g. TL-2024-12345"
-                            />
-                          </div>
-
-                          <div className="flex items-center justify-between p-3 bg-background-50 border border-background-200/70 rounded-md">
-                            <div className="flex items-center gap-2">
-                              <div className="w-6 h-6 flex items-center justify-center">
-                                <i className="ri-file-shield-line text-foreground-500" />
-                              </div>
-                              <span className="text-xs text-foreground-700 font-label">Trade License Document <span className="text-accent-500">*</span></span>
-                            </div>
-                            <label className="cursor-pointer">
-                              <input
-                                type="file"
-                                accept="image/*,.pdf"
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0];
-                                  if (file) setTradeLicenseDoc(file);
-                                }}
-                                className="hidden"
-                              />
-                              <span className={`text-xs px-3 py-1 rounded-md font-label transition-colors ${
-                                tradeLicenseDoc
-                                  ? 'bg-green-50 text-green-700 border border-green-200'
-                                  : 'bg-white border border-background-200/70 text-foreground-500 hover:border-primary-300/60 hover:text-primary-600'
-                              }`}>
-                                {tradeLicenseDoc ? (
-                                  <span className="flex items-center gap-1">
-                                    <i className="ri-check-line text-xs" />
-                                    {tradeLicenseDoc.name.length > 15 ? tradeLicenseDoc.name.slice(0, 15) + '...' : tradeLicenseDoc.name}
-                                  </span>
-                                ) : 'Upload'}
-                              </span>
-                            </label>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* === SOLE PROPRIETOR: ID DOCUMENTS === */}
                       {businessType === 'sole_proprietor' && (
                         <>
-                          <div className="pt-3 border-t border-background-200/70">
-                            <label className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                              ID Verification (Required)
-                            </label>
-                            <p className="text-xs text-foreground-500 mb-3">
-                              Upload both the front and back of your National ID card, or your Passport, for identity verification.
-                            </p>
-                            <div className="space-y-3">
-                              <div className="flex items-center justify-between p-3 bg-background-50 border border-background-200/70 rounded-md">
-                                <div className="flex items-center gap-2">
-                                  <div className="w-6 h-6 flex items-center justify-center">
-                                    <i className="ri-id-card-line text-foreground-500" />
-                                  </div>
-                                  <span className="text-xs text-foreground-700 font-label">National ID (Front) <span className="text-accent-500">*</span></span>
-                                </div>
-                                <label className="cursor-pointer">
-                                  <input
-                                    type="file"
-                                    accept="image/*,.pdf"
-                                    onChange={(e) => {
-                                      const file = e.target.files?.[0];
-                                      if (file) setDocIdFront(file);
-                                    }}
-                                    className="hidden"
-                                  />
-                                  <span className={`text-xs px-3 py-1 rounded-md font-label transition-colors ${
-                                    docIdFront
-                                      ? 'bg-green-50 text-green-700 border border-green-200'
-                                      : 'bg-white border border-background-200/70 text-foreground-500 hover:border-primary-300/60 hover:text-primary-600'
-                                  }`}>
-                                    {docIdFront ? (
-                                      <span className="flex items-center gap-1">
-                                        <i className="ri-check-line text-xs" />
-                                        {docIdFront.name.length > 15 ? docIdFront.name.slice(0, 15) + '...' : docIdFront.name}
-                                      </span>
-                                    ) : 'Upload'}
-                                  </span>
-                                </label>
-                              </div>
-
-                              <div className="flex items-center justify-between p-3 bg-background-50 border border-background-200/70 rounded-md">
-                                <div className="flex items-center gap-2">
-                                  <div className="w-6 h-6 flex items-center justify-center">
-                                    <i className="ri-id-card-line text-foreground-500" style={{ transform: 'rotate(180deg)' }} />
-                                  </div>
-                                  <span className="text-xs text-foreground-700 font-label">National ID (Back) <span className="text-accent-500">*</span></span>
-                                </div>
-                                <label className="cursor-pointer">
-                                  <input
-                                    type="file"
-                                    accept="image/*,.pdf"
-                                    onChange={(e) => {
-                                      const file = e.target.files?.[0];
-                                      if (file) setDocIdBack(file);
-                                    }}
-                                    className="hidden"
-                                  />
-                                  <span className={`text-xs px-3 py-1 rounded-md font-label transition-colors ${
-                                    docIdBack
-                                      ? 'bg-green-50 text-green-700 border border-green-200'
-                                      : 'bg-white border border-background-200/70 text-foreground-500 hover:border-primary-300/60 hover:text-primary-600'
-                                  }`}>
-                                    {docIdBack ? (
-                                      <span className="flex items-center gap-1">
-                                        <i className="ri-check-line text-xs" />
-                                        {docIdBack.name.length > 15 ? docIdBack.name.slice(0, 15) + '...' : docIdBack.name}
-                                      </span>
-                                    ) : 'Upload'}
-                                  </span>
-                                </label>
-                              </div>
-
-                              <div className="flex items-center justify-between p-3 bg-background-50 border border-background-200/70 rounded-md">
-                                <div className="flex items-center gap-2">
-                                  <div className="w-6 h-6 flex items-center justify-center">
-                                    <i className="ri-passport-line text-foreground-500" />
-                                  </div>
-                                  <span className="text-xs text-foreground-700 font-label">Passport (Optional)</span>
-                                </div>
-                                <label className="cursor-pointer">
-                                  <input
-                                    type="file"
-                                    accept="image/*,.pdf"
-                                    onChange={(e) => {
-                                      const file = e.target.files?.[0];
-                                      if (file) setDocPassport(file);
-                                    }}
-                                    className="hidden"
-                                  />
-                                  <span className={`text-xs px-3 py-1 rounded-md font-label transition-colors ${
-                                    docPassport
-                                      ? 'bg-green-50 text-green-700 border border-green-200'
-                                      : 'bg-white border border-background-200/70 text-foreground-500 hover:border-primary-300/60 hover:text-primary-600'
-                                  }`}>
-                                    {docPassport ? (
-                                      <span className="flex items-center gap-1">
-                                        <i className="ri-check-line text-xs" />
-                                        {docPassport.name.length > 15 ? docPassport.name.slice(0, 15) + '...' : docPassport.name}
-                                      </span>
-                                    ) : 'Upload'}
-                                  </span>
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Sole Proprietor — optional business docs */}
-                          <div>
-                            <label className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                              Business Documents (Recommended)
-                            </label>
-                            <p className="text-xs text-foreground-500 mb-3">
-                              Upload your official documents to speed up verification. These are reviewed by our admin team.
-                            </p>
-                            <div className="space-y-3">
-                              {[
-                                { label: 'Business Registration', state: docBusinessReg, setState: setDocBusinessReg, key: 'bus-reg' },
-                                { label: 'GRA Compliance', state: docGra, setState: setDocGra, key: 'gra' },
-                                { label: 'NIS Compliance', state: docNis, setState: setDocNis, key: 'nis' },
-                                { label: 'Company Profile', state: docProfile, setState: setDocProfile, key: 'profile' },
-                              ].map((doc) => (
-                                <div key={doc.key} className="flex items-center justify-between p-2.5 bg-background-50 border border-background-200/70 rounded-md">
-                                  <span className="text-xs text-foreground-700 font-label">{doc.label}</span>
-                                  <label className="cursor-pointer">
-                                    <input
-                                      type="file"
-                                      accept="image/*,.pdf"
-                                      onChange={(e) => {
-                                        const file = e.target.files?.[0];
-                                        if (file) doc.setState(file);
-                                      }}
-                                      className="hidden"
-                                    />
-                                    <span className={`text-xs px-3 py-1 rounded-md font-label transition-colors ${
-                                      doc.state
-                                        ? 'bg-green-50 text-green-700 border border-green-200'
-                                        : 'bg-white border border-background-200/70 text-foreground-500 hover:border-primary-300/60 hover:text-primary-600'
-                                    }`}>
-                                      {doc.state ? (
-                                        <span className="flex items-center gap-1">
-                                          <i className="ri-check-line text-xs" />
-                                          {doc.state.name.length > 15 ? doc.state.name.slice(0, 15) + '...' : doc.state.name}
-                                        </span>
-                                      ) : 'Upload'}
-                                    </span>
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
+                          <IDDocumentStep
+                            docIdFront={docIdFront}
+                            docIdBack={docIdBack}
+                            docPassport={docPassport}
+                            onDocIdFrontChange={setDocIdFront}
+                            onDocIdBackChange={setDocIdBack}
+                            onDocPassportChange={setDocPassport}
+                          />
+                          <BusinessDocsStep
+                            docBusinessReg={docBusinessReg}
+                            directorIdFiles={directorIdFiles}
+                            onDocBusinessRegChange={setDocBusinessReg}
+                            onDirectorFileChange={handleDirectorFileChange}
+                          />
                         </>
                       )}
 
-                      {/* === REGISTERED COMPANY: BUSINESS REG + DIRECTORS === */}
                       {businessType === 'registered_company' && (
                         <>
-                          {/* Business Registration Document (Required) */}
-                          <div className="pt-3 border-t border-background-200/70">
-                            <label className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                              Business Registration Document <span className="text-accent-500">*</span>
-                            </label>
-                            <p className="text-xs text-foreground-500 mb-3">
-                              Upload your official business registration certificate. This is required for company verification.
-                            </p>
-                            <div className="flex items-center justify-between p-3 bg-background-50 border-2 border-dashed border-background-200/70 rounded-md hover:border-primary-400/60 transition-colors">
-                              <div className="flex items-center gap-2">
-                                <div className="w-6 h-6 flex items-center justify-center">
-                                  <i className="ri-file-text-line text-foreground-500" />
-                                </div>
-                                <span className="text-xs text-foreground-700 font-label">
-                                  {docBusinessRegForCompany ? docBusinessRegForCompany.name : 'Upload your registration document'}
-                                </span>
-                              </div>
-                              <label className="cursor-pointer">
-                                <input
-                                  type="file"
-                                  accept="image/*,.pdf"
-                                  onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) setDocBusinessRegForCompany(file);
-                                  }}
-                                  className="hidden"
-                                />
-                                <span className={`text-xs px-3 py-1 rounded-md font-label transition-colors ${
-                                  docBusinessRegForCompany
-                                    ? 'bg-green-50 text-green-700 border border-green-200'
-                                    : 'bg-white border border-background-200/70 text-foreground-500 hover:border-primary-300/60 hover:text-primary-600'
-                                }`}>
-                                  {docBusinessRegForCompany ? (
-                                    <span className="flex items-center gap-1">
-                                      <i className="ri-check-line text-xs" />
-                                      Change
-                                    </span>
-                                  ) : 'Upload'}
-                                </span>
-                              </label>
-                            </div>
-                          </div>
-
-                          {/* Directors/Owners IDs */}
-                          <div>
-                            <label className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                              Directors / Owners IDs (Optional — up to 3)
-                            </label>
-                            <p className="text-xs text-foreground-500 mb-3">
-                              Upload identification documents for directors or owners of the company. Each director&apos;s ID helps speed up verification.
-                            </p>
-                            <div className="space-y-3">
-                              {[0, 1, 2].map((index) => {
-                                const directorFile = (directorIdFiles as unknown as (File | null)[])[index] || null;
-                                return (
-                                  <div key={index} className="flex items-center justify-between p-3 bg-background-50 border border-background-200/70 rounded-md">
-                                    <div className="flex items-center gap-2">
-                                      <div className="w-6 h-6 flex items-center justify-center">
-                                        <i className="ri-user-star-line text-foreground-500" />
-                                      </div>
-                                      <span className="text-xs text-foreground-700 font-label">
-                                        Director {index + 1} ID {index === 0 ? '' : '(Optional)'}
-                                      </span>
-                                    </div>
-                                    <label className="cursor-pointer">
-                                      <input
-                                        type="file"
-                                        accept="image/*,.pdf"
-                                        onChange={(e) => {
-                                          const file = e.target.files?.[0] || null;
-                                          handleDirectorFileChange(index, file);
-                                        }}
-                                        className="hidden"
-                                      />
-                                      <span className={`text-xs px-3 py-1 rounded-md font-label transition-colors ${
-                                        directorFile
-                                          ? 'bg-green-50 text-green-700 border border-green-200'
-                                          : 'bg-white border border-background-200/70 text-foreground-500 hover:border-primary-300/60 hover:text-primary-600'
-                                      }`}>
-                                        {directorFile ? (
-                                          <span className="flex items-center gap-1">
-                                            <i className="ri-check-line text-xs" />
-                                            {directorFile.name.length > 15 ? directorFile.name.slice(0, 15) + '...' : directorFile.name}
-                                          </span>
-                                        ) : 'Upload'}
-                                      </span>
-                                    </label>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          {/* Company — optional compliance docs */}
-                          <div>
-                            <label className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
-                              Compliance Documents (Recommended)
-                            </label>
-                            <p className="text-xs text-foreground-500 mb-3">
-                              Upload additional compliance documents to support your company verification.
-                            </p>
-                            <div className="space-y-3">
-                              {[
-                                { label: 'GRA Compliance', state: docGra, setState: setDocGra, key: 'gra-co' },
-                                { label: 'NIS Compliance', state: docNis, setState: setDocNis, key: 'nis-co' },
-                                { label: 'Company Profile', state: docProfile, setState: setDocProfile, key: 'profile-co' },
-                              ].map((doc) => (
-                                <div key={doc.key} className="flex items-center justify-between p-2.5 bg-background-50 border border-background-200/70 rounded-md">
-                                  <span className="text-xs text-foreground-700 font-label">{doc.label}</span>
-                                  <label className="cursor-pointer">
-                                    <input
-                                      type="file"
-                                      accept="image/*,.pdf"
-                                      onChange={(e) => {
-                                        const file = e.target.files?.[0];
-                                        if (file) doc.setState(file);
-                                      }}
-                                      className="hidden"
-                                    />
-                                    <span className={`text-xs px-3 py-1 rounded-md font-label transition-colors ${
-                                      doc.state
-                                        ? 'bg-green-50 text-green-700 border border-green-200'
-                                        : 'bg-white border border-background-200/70 text-foreground-500 hover:border-primary-300/60 hover:text-primary-600'
-                                    }`}>
-                                      {doc.state ? (
-                                        <span className="flex items-center gap-1">
-                                          <i className="ri-check-line text-xs" />
-                                          {doc.state.name.length > 15 ? doc.state.name.slice(0, 15) + '...' : doc.state.name}
-                                        </span>
-                                      ) : 'Upload'}
-                                    </span>
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
+                          <BusinessDocsStep
+                            docBusinessReg={docBusinessRegForCompany}
+                            directorIdFiles={directorIdFiles}
+                            onDocBusinessRegChange={setDocBusinessRegForCompany}
+                            onDirectorFileChange={handleDirectorFileChange}
+                          />
+                          <ComplianceDocsStep
+                            title="Compliance Documents (Recommended)"
+                            description="Upload additional compliance documents to support your company verification."
+                            documents={[
+                              { key: 'gra-co', label: 'GRA Compliance', state: docGra, setState: setDocGra },
+                              { key: 'nis-co', label: 'NIS Compliance', state: docNis, setState: setDocNis },
+                              { key: 'profile-co', label: 'Company Profile', state: docProfile, setState: setDocProfile },
+                            ]}
+                          />
                         </>
                       )}
 
-                      {/* No business type selected — show placeholder */}
                       {!businessType && (
                         <div className="p-4 bg-background-50 border border-background-200/70 rounded-md text-center">
                           <div className="w-10 h-10 mx-auto mb-2 flex items-center justify-center">
@@ -1618,47 +985,13 @@ export default function RegisterPage() {
       </main>
       <Footer />
 
-      {/* Policy Modal */}
-      {showPolicyModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50">
-          <div className="bg-white border border-background-200/70 rounded-lg w-full max-w-lg mx-4 max-h-[80vh] flex flex-col">
-            <div className="p-6 border-b border-background-200/70">
-              <h2 className="font-heading text-lg text-foreground-900">Updated Policies</h2>
-              <p className="text-xs text-foreground-500 mt-0.5">Please review and accept to continue.</p>
-            </div>
-            <div className="flex-1 overflow-y-auto p-6 space-y-6">
-              {policyActive.privacy && policyTexts.privacy && (
-                <div>
-                  <h3 className="font-heading text-sm font-semibold text-foreground-900 mb-2">Privacy Notice</h3>
-                  <div className="text-sm text-foreground-700 leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto bg-background-50 p-3 rounded-md border border-background-200/70">
-                    {policyTexts.privacy}
-                  </div>
-                </div>
-              )}
-              {policyActive.cookie && policyTexts.cookie && (
-                <div>
-                  <h3 className="font-heading text-sm font-semibold text-foreground-900 mb-2">Cookie Policy</h3>
-                  <div className="text-sm text-foreground-700 leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto bg-background-50 p-3 rounded-md border border-background-200/70">
-                    {policyTexts.cookie}
-                  </div>
-                </div>
-              )}
-              {!policyTexts.privacy && !policyTexts.cookie && (
-                <p className="text-sm text-foreground-500 text-center py-4">No policy content is currently available. Click Agree to continue.</p>
-              )}
-            </div>
-            <div className="p-4 border-t border-background-200/70 flex justify-end">
-              <button
-                onClick={handleAcceptPolicy}
-                disabled={policyAccepting}
-                className="px-6 py-2.5 bg-primary-500 hover:bg-primary-600 text-background-50 text-sm font-label font-medium rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap cursor-pointer"
-              >
-                {policyAccepting ? 'Accepting...' : 'Agree'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+<PolicyModal
+        isOpen={showPolicyModal}
+        policyTexts={policyTexts}
+        policyActive={policyActive}
+        policyAccepting={policyAccepting}
+        onAccept={handleAcceptPolicy}
+      />
     </div>
   );
 }

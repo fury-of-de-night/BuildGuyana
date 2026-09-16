@@ -38,7 +38,7 @@ function AdminDashboard() {
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   // Hardcode fury65shots@gmail.com as the admin — checks email directly, not the DB role column
-  const isAdmin = user?.email === 'fury65shots@gmail.com';
+  const isAdmin = user?.email === process.env.ADMIN_EMAIL || 'admin@buildguyana.gy';
 
   const fetchPending = useCallback(async () => {
     setLoadingData(true);

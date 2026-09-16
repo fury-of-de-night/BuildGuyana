@@ -1,0 +1,737 @@
+{
+  "communities": {
+    "0": [
+      "eslint_config",
+      "eslint_config_autoimportglobals",
+      "eslint_rules_route_element_jsx",
+      "eslint_rules_route_element_jsx_create",
+      "eslint_rules_route_element_jsx_create_getkeyname",
+      "eslint_rules_route_element_jsx_create_getsuggestedname",
+      "eslint_rules_route_element_jsx_create_isjsxlike",
+      "package",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_lint",
+      "package_scripts_preview",
+      "package_scripts_type_check",
+      "package_type",
+      "package_version",
+      "ref_autoprefixer",
+      "ref_eslint",
+      "ref_eslint_js",
+      "ref_eslint_plugin_react_hooks",
+      "ref_eslint_plugin_react_refresh",
+      "ref_firebase",
+      "ref_globals",
+      "ref_jiti",
+      "ref_lucide_react",
+      "ref_postcss",
+      "ref_react_dom",
+      "ref_recharts",
+      "ref_source_map",
+      "ref_stripe_react_stripe_js",
+      "ref_tailwindcss",
+      "ref_types_react",
+      "ref_types_react_dom",
+      "ref_typescript",
+      "ref_typescript_eslint",
+      "ref_unplugin_auto_import",
+      "ref_vite",
+      "ref_vitejs_plugin_react",
+      "vite_config"
+    ],
+    "1": [
+      "src_pages_dashboard_contractor_components_jobstab",
+      "src_pages_dashboard_contractor_components_jobstab_categories",
+      "src_pages_dashboard_contractor_components_jobstab_getleadcostcredits",
+      "src_pages_dashboard_contractor_components_jobstab_job",
+      "src_pages_dashboard_contractor_components_jobstab_jobstab",
+      "src_pages_dashboard_contractor_components_jobstab_jobstabprops",
+      "src_pages_dashboard_contractor_components_leadstab",
+      "src_pages_dashboard_contractor_components_leadstab_dispute_reasons",
+      "src_pages_dashboard_contractor_components_leadstab_getleadcostcredits",
+      "src_pages_dashboard_contractor_components_leadstab_jobapplication",
+      "src_pages_dashboard_contractor_components_leadstab_leadstab",
+      "src_pages_dashboard_contractor_components_leadstab_leadstabprops",
+      "src_pages_dashboard_contractor_components_leadstab_quotewithjob",
+      "src_pages_dashboard_contractor_components_milestonestab",
+      "src_pages_dashboard_contractor_components_milestonestab_milestoneitem",
+      "src_pages_dashboard_contractor_components_milestonestab_milestonestab",
+      "src_pages_dashboard_contractor_components_profiletab",
+      "src_pages_dashboard_contractor_components_profiletab_predefined_materials",
+      "src_pages_dashboard_contractor_components_profiletab_profiletab",
+      "src_pages_dashboard_contractor_components_tiertab",
+      "src_pages_dashboard_contractor_components_tiertab_tier_display",
+      "src_pages_dashboard_contractor_components_tiertab_tier_order",
+      "src_pages_dashboard_contractor_components_tiertab_tier_pricing",
+      "src_pages_dashboard_contractor_components_tiertab_tierpricing",
+      "src_pages_dashboard_contractor_components_tiertab_tiertab",
+      "src_pages_dashboard_contractor_components_wallettab",
+      "src_pages_dashboard_contractor_components_wallettab_top_up_packages",
+      "src_pages_dashboard_contractor_components_wallettab_transaction",
+      "src_pages_dashboard_contractor_components_wallettab_wallettab",
+      "src_pages_dashboard_contractor_components_wallettab_wallettabprops",
+      "src_pages_dashboard_contractor_page",
+      "src_pages_dashboard_contractor_page_tabkey",
+      "src_pages_dashboard_contractor_page_tabs",
+      "src_pages_dashboard_contractor_page_tradespersondashboard",
+      "src_pages_dashboard_contractor_page_tradespersondashboardpage"
+    ],
+    "2": [
+      "tsconfig_app",
+      "tsconfig_app_compileroptions",
+      "tsconfig_app_compileroptions_allowimportingtsextensions",
+      "tsconfig_app_compileroptions_alwaysstrict",
+      "tsconfig_app_compileroptions_erasablesyntaxonly",
+      "tsconfig_app_compileroptions_jsx",
+      "tsconfig_app_compileroptions_lib",
+      "tsconfig_app_compileroptions_module",
+      "tsconfig_app_compileroptions_moduledetection",
+      "tsconfig_app_compileroptions_moduleresolution",
+      "tsconfig_app_compileroptions_noemit",
+      "tsconfig_app_compileroptions_nofallthroughcasesinswitch",
+      "tsconfig_app_compileroptions_noimplicitany",
+      "tsconfig_app_compileroptions_noimplicitthis",
+      "tsconfig_app_compileroptions_nouncheckedsideeffectimports",
+      "tsconfig_app_compileroptions_nounusedlocals",
+      "tsconfig_app_compileroptions_nounusedparameters",
+      "tsconfig_app_compileroptions_paths",
+      "tsconfig_app_compileroptions_skiplibcheck",
+      "tsconfig_app_compileroptions_strict",
+      "tsconfig_app_compileroptions_strictbindcallapply",
+      "tsconfig_app_compileroptions_strictfunctiontypes",
+      "tsconfig_app_compileroptions_strictnullchecks",
+      "tsconfig_app_compileroptions_strictpropertyinitialization",
+      "tsconfig_app_compileroptions_target",
+      "tsconfig_app_compileroptions_tsbuildinfofile",
+      "tsconfig_app_compileroptions_usedefineforclassfields",
+      "tsconfig_app_compileroptions_useunknownincatchvariables",
+      "tsconfig_app_compileroptions_verbatimmodulesyntax",
+      "tsconfig_app_include"
+    ],
+    "3": [
+      "file_saver",
+      "jszip",
+      "ref_file_saver",
+      "ref_jszip",
+      "src_pages_control_panel_components_inviteusertab",
+      "src_pages_control_panel_components_inviteusertab_inviteusertab",
+      "src_pages_control_panel_components_inviteusertab_role",
+      "src_pages_control_panel_components_pendingtopups",
+      "src_pages_control_panel_components_pendingtopups_pendingtopup",
+      "src_pages_control_panel_components_pendingtopups_pendingtopups",
+      "src_pages_control_panel_page",
+      "src_pages_control_panel_page_controlpanelpage",
+      "src_pages_control_panel_page_creditmanagementtab",
+      "src_pages_control_panel_page_datamanagementtab",
+      "src_pages_control_panel_page_default_settings",
+      "src_pages_control_panel_page_formaterror",
+      "src_pages_control_panel_page_formattimeago",
+      "src_pages_control_panel_page_notificationstab",
+      "src_pages_control_panel_page_pendingcontractor",
+      "src_pages_control_panel_page_platformsetting",
+      "src_pages_control_panel_page_rationale_180",
+      "src_pages_control_panel_page_settingstab",
+      "src_pages_control_panel_page_tabkey",
+      "src_pages_control_panel_page_verificationtab"
+    ],
+    "4": [
+      "src_components_feature_footer",
+      "src_components_feature_footer_default_contact",
+      "src_components_feature_footer_default_social",
+      "src_components_feature_footer_footer",
+      "src_components_feature_whatsapppopup",
+      "src_components_feature_whatsapppopup_usewhatsapppopup",
+      "src_components_feature_whatsapppopup_whatsapppopup",
+      "src_components_feature_whatsapppopup_whatsapppopupprops",
+      "src_contexts_democontext",
+      "src_contexts_democontext_democontext",
+      "src_contexts_democontext_democontextvalue",
+      "src_contexts_democontext_demoprovider",
+      "src_contexts_democontext_demorole",
+      "src_contexts_democontext_usedemo",
+      "src_contexts_platformsettingscontext",
+      "src_contexts_platformsettingscontext_default_settings",
+      "src_contexts_platformsettingscontext_platformsettings",
+      "src_contexts_platformsettingscontext_platformsettingscontext",
+      "src_contexts_platformsettingscontext_platformsettingscontextvalue",
+      "src_contexts_platformsettingscontext_platformsettingsprovider",
+      "src_contexts_platformsettingscontext_useplatformsettings"
+    ],
+    "5": [
+      "src_pages_home_components_categoriessection",
+      "src_pages_home_components_categoriessection_categoriessection",
+      "src_pages_home_components_categoriessection_categorycount",
+      "src_pages_home_components_ctasection",
+      "src_pages_home_components_ctasection_ctasection",
+      "src_pages_home_components_featuredtradespeoplesection",
+      "src_pages_home_components_featuredtradespeoplesection_featuredtradespeoplesection",
+      "src_pages_home_components_featuredtradespeoplesection_tradespersoncard",
+      "src_pages_home_components_herosection",
+      "src_pages_home_components_herosection_herosection",
+      "src_pages_home_components_howitworkssection",
+      "src_pages_home_components_howitworkssection_contractorsteps",
+      "src_pages_home_components_howitworkssection_howitworkssection",
+      "src_pages_home_components_howitworkssection_ownersteps",
+      "src_pages_home_components_testimonialssection",
+      "src_pages_home_components_testimonialssection_testimonial",
+      "src_pages_home_components_testimonialssection_testimonialssection",
+      "src_pages_home_components_trustsection",
+      "src_pages_home_components_trustsection_trustsection",
+      "src_pages_home_page",
+      "src_pages_home_page_home"
+    ],
+    "6": [
+      "tsconfig_node",
+      "tsconfig_node_compileroptions",
+      "tsconfig_node_compileroptions_allowimportingtsextensions",
+      "tsconfig_node_compileroptions_erasablesyntaxonly",
+      "tsconfig_node_compileroptions_lib",
+      "tsconfig_node_compileroptions_module",
+      "tsconfig_node_compileroptions_moduledetection",
+      "tsconfig_node_compileroptions_moduleresolution",
+      "tsconfig_node_compileroptions_noemit",
+      "tsconfig_node_compileroptions_nofallthroughcasesinswitch",
+      "tsconfig_node_compileroptions_nouncheckedsideeffectimports",
+      "tsconfig_node_compileroptions_nounusedlocals",
+      "tsconfig_node_compileroptions_nounusedparameters",
+      "tsconfig_node_compileroptions_skiplibcheck",
+      "tsconfig_node_compileroptions_strict",
+      "tsconfig_node_compileroptions_target",
+      "tsconfig_node_compileroptions_tsbuildinfofile",
+      "tsconfig_node_compileroptions_verbatimmodulesyntax",
+      "tsconfig_node_include"
+    ],
+    "7": [
+      "package_devdependencies",
+      "package_devdependencies_autoprefixer",
+      "package_devdependencies_eslint",
+      "package_devdependencies_eslint_js",
+      "package_devdependencies_eslint_plugin_react_hooks",
+      "package_devdependencies_eslint_plugin_react_refresh",
+      "package_devdependencies_globals",
+      "package_devdependencies_jiti",
+      "package_devdependencies_postcss",
+      "package_devdependencies_source_map",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_typescript",
+      "package_devdependencies_typescript_eslint",
+      "package_devdependencies_unplugin_auto_import",
+      "package_devdependencies_vite",
+      "package_devdependencies_vitejs_plugin_react"
+    ],
+    "8": [
+      "ref_react",
+      "ref_react_router_dom",
+      "src_components_feature_authguard",
+      "src_components_feature_authguard_authguard",
+      "src_components_feature_authguard_authguardprops",
+      "src_components_feature_navbar",
+      "src_components_feature_navbar_navbar",
+      "src_components_feature_scrolltotop",
+      "src_components_feature_scrolltotop_scrolltotop",
+      "src_pages_contractors_components_emptyregionbanner",
+      "src_pages_contractors_components_emptyregionbanner_emptyregionbanner",
+      "src_pages_contractors_page",
+      "src_pages_contractors_page_tradespersoncard",
+      "src_pages_jobs_request_quote_page",
+      "src_pages_jobs_request_quote_page_jobdetails",
+      "src_pages_jobs_request_quote_page_requestquoteform",
+      "src_pages_jobs_request_quote_page_requestquotepage"
+    ],
+    "9": [
+      "src_pages_contractors_page_contractors",
+      "src_pages_contractors_page_contractors_enrichandsetcards",
+      "src_pages_demo_project_owner_page",
+      "src_pages_demo_project_owner_page_demoprojectownerpage",
+      "src_pages_notfound",
+      "src_pages_notfound_notfound",
+      "src_pages_pricing_page",
+      "src_pages_pricing_page_pricingpage",
+      "src_pages_pricing_page_tiers",
+      "src_pages_profile_page",
+      "src_pages_profile_page_myprofile",
+      "src_pages_profile_page_myprofilepage",
+      "src_pages_profile_page_predefined_materials",
+      "src_pages_testimonials_page",
+      "src_pages_testimonials_page_testimonial",
+      "src_pages_testimonials_page_testimonialspage",
+      "src_router_config"
+    ],
+    "10": [
+      "ref_i18next",
+      "ref_i18next_browser_languagedetector",
+      "ref_react_i18next",
+      "src_app",
+      "src_app_app",
+      "src_i18n_index",
+      "src_i18n_local_index",
+      "src_i18n_local_index_messages",
+      "src_i18n_local_index_modules",
+      "src_main",
+      "src_router_config_routes",
+      "src_router_index",
+      "src_router_index_approutes",
+      "src_router_index_navigatepromise",
+      "src_router_index_window"
+    ],
+    "11": [
+      "src_mocks_demodata",
+      "src_mocks_demodata_demo_jobs",
+      "src_mocks_demodata_demo_leads",
+      "src_mocks_demodata_demo_milestones",
+      "src_mocks_demodata_demo_post_job_form",
+      "src_mocks_demodata_demo_project_owner_profile",
+      "src_mocks_demodata_demo_tradesperson_contractor",
+      "src_mocks_demodata_demo_tradesperson_profile",
+      "src_mocks_demodata_demo_transactions",
+      "src_mocks_demodata_demo_wallet_balance",
+      "src_mocks_demodata_demojob",
+      "src_mocks_demodata_demolead",
+      "src_mocks_demodata_demomilestone",
+      "src_mocks_demodata_demotransaction",
+      "src_mocks_demodata_getleadcostcredits"
+    ],
+    "12": [
+      "package_dependencies",
+      "package_dependencies_file_saver",
+      "package_dependencies_firebase",
+      "package_dependencies_i18next",
+      "package_dependencies_i18next_browser_languagedetector",
+      "package_dependencies_jszip",
+      "package_dependencies_lucide_react",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_react_i18next",
+      "package_dependencies_react_router_dom",
+      "package_dependencies_recharts",
+      "package_dependencies_stripe_react_stripe_js",
+      "package_dependencies_supabase_supabase_js"
+    ],
+    "13": [
+      "src_pages_control_panel_components_verificationdetailmodal",
+      "src_pages_control_panel_components_verificationdetailmodal_isvalidhttpurl",
+      "src_pages_control_panel_components_verificationdetailmodal_normalizestatus",
+      "src_pages_control_panel_components_verificationdetailmodal_verificationdetailmodal",
+      "src_pages_control_panel_components_verificationdetailmodal_verificationdetailmodalprops",
+      "src_pages_control_panel_components_verificationdetailmodal_verificationdetailrecord",
+      "src_pages_control_panel_components_verificationqueue",
+      "src_pages_control_panel_components_verificationqueue_filter_tabs",
+      "src_pages_control_panel_components_verificationqueue_filterkey",
+      "src_pages_control_panel_components_verificationqueue_getstatusinfo",
+      "src_pages_control_panel_components_verificationqueue_normalizestatus",
+      "src_pages_control_panel_components_verificationqueue_status_map",
+      "src_pages_control_panel_components_verificationqueue_verificationqueue",
+      "src_pages_control_panel_components_verificationqueue_verificationrecord"
+    ],
+    "14": [
+      "src_pages_dashboard_project_owner_components_milestonestab",
+      "src_pages_dashboard_project_owner_components_milestonestab_milestone",
+      "src_pages_dashboard_project_owner_components_milestonestab_milestonegroup",
+      "src_pages_dashboard_project_owner_components_milestonestab_milestonestab",
+      "src_pages_dashboard_project_owner_page",
+      "src_pages_dashboard_project_owner_page_jobwithstats",
+      "src_pages_dashboard_project_owner_page_leadcontractor",
+      "src_pages_dashboard_project_owner_page_notification",
+      "src_pages_dashboard_project_owner_page_projectownerdashboard",
+      "src_pages_dashboard_project_owner_page_projectownerdashboardpage",
+      "src_pages_dashboard_project_owner_page_shortlistedcontractor",
+      "src_pages_dashboard_project_owner_page_status_options",
+      "src_pages_dashboard_project_owner_page_tabkey",
+      "src_pages_dashboard_project_owner_page_tabs"
+    ],
+    "15": [
+      "ref_supabase_supabase_js",
+      "src_contexts_authcontext",
+      "src_contexts_authcontext_activerole",
+      "src_contexts_authcontext_authcontext",
+      "src_contexts_authcontext_authcontextvalue",
+      "src_contexts_authcontext_authprovider",
+      "src_contexts_authcontext_contractorprofile",
+      "src_contexts_authcontext_determinerole",
+      "src_contexts_authcontext_profile",
+      "src_contexts_authcontext_useauth",
+      "src_lib_supabase",
+      "src_lib_supabase_supabase"
+    ],
+    "16": [
+      "src_lib_database_types",
+      "src_lib_database_types_compositetypes",
+      "src_lib_database_types_constants",
+      "src_lib_database_types_database",
+      "src_lib_database_types_databasewithoutinternals",
+      "src_lib_database_types_defaultschema",
+      "src_lib_database_types_enums",
+      "src_lib_database_types_json",
+      "src_lib_database_types_tables",
+      "src_lib_database_types_tablesinsert",
+      "src_lib_database_types_tablesupdate"
+    ],
+    "17": [
+      "src_pages_contractors_profile_page",
+      "src_pages_contractors_profile_page_badge_styles",
+      "src_pages_contractors_profile_page_contractorprofilepage",
+      "src_pages_contractors_profile_page_fullprofile",
+      "src_pages_contractors_profile_page_generic_portfolio",
+      "src_pages_contractors_profile_page_getmockportfolio",
+      "src_pages_contractors_profile_page_getmockreviews",
+      "src_pages_contractors_profile_page_mock_portfolios",
+      "src_pages_contractors_profile_page_mock_reviews",
+      "src_pages_contractors_profile_page_review",
+      "src_pages_contractors_profile_page_verificationbadge"
+    ],
+    "18": [
+      "src_contexts_demomodecontext",
+      "src_contexts_demomodecontext_democontext",
+      "src_contexts_demomodecontext_democontextvalue",
+      "src_contexts_demomodecontext_demonotification",
+      "src_contexts_demomodecontext_demoprovider",
+      "src_contexts_demomodecontext_demoquote",
+      "src_contexts_demomodecontext_demorole",
+      "src_contexts_demomodecontext_loadsaved",
+      "src_contexts_demomodecontext_makeprefillednotifications",
+      "src_contexts_demomodecontext_usedemo"
+    ],
+    "19": [
+      "src_pages_demo_tradesperson_page",
+      "src_pages_demo_tradesperson_page_demotradespersonpage",
+      "src_pages_demo_tradesperson_page_jobstab",
+      "src_pages_demo_tradesperson_page_leadstab",
+      "src_pages_demo_tradesperson_page_milestonestab",
+      "src_pages_demo_tradesperson_page_regions",
+      "src_pages_demo_tradesperson_page_tabkey",
+      "src_pages_demo_tradesperson_page_tabs",
+      "src_pages_demo_tradesperson_page_wallettab"
+    ],
+    "20": [
+      "src_pages_control_panel_verification_page",
+      "src_pages_control_panel_verification_page_doc_icons",
+      "src_pages_control_panel_verification_page_doc_labels",
+      "src_pages_control_panel_verification_page_dockey",
+      "src_pages_control_panel_verification_page_verificationdetail",
+      "src_pages_control_panel_verification_page_verificationpage",
+      "src_pages_control_panel_verification_page_verificationuser"
+    ],
+    "21": [
+      "src_pages_public_jobs_page",
+      "src_pages_public_jobs_page_budgetsize",
+      "src_pages_public_jobs_page_formatgyd",
+      "src_pages_public_jobs_page_pickthumbnail",
+      "src_pages_public_jobs_page_publicjob",
+      "src_pages_public_jobs_page_publicjobspage",
+      "src_pages_public_jobs_page_status_meta"
+    ],
+    "22": [
+      "src_pages_how_it_works_page",
+      "src_pages_how_it_works_page_guardiansteps",
+      "src_pages_how_it_works_page_howitworks",
+      "src_pages_how_it_works_page_protectionpoints",
+      "src_pages_how_it_works_page_tradespersonsteps",
+      "src_pages_how_it_works_page_valueprops"
+    ],
+    "23": [
+      "src_pages_jobs_post_page",
+      "src_pages_jobs_post_page_budget_options",
+      "src_pages_jobs_post_page_budgetsize",
+      "src_pages_jobs_post_page_postjobform",
+      "src_pages_jobs_post_page_postjobpage",
+      "src_pages_jobs_post_page_timeline_options"
+    ],
+    "24": [
+      "src_pages_transaction_history_page",
+      "src_pages_transaction_history_page_formatamount",
+      "src_pages_transaction_history_page_gettransactiondisplay",
+      "src_pages_transaction_history_page_transaction",
+      "src_pages_transaction_history_page_transactionhistorypage",
+      "src_pages_transaction_history_page_transactionhistoryroute"
+    ],
+    "25": [
+      "src_services_verificationapi",
+      "src_services_verificationapi_getadminverifications",
+      "src_services_verificationapi_updateverificationstatus",
+      "src_services_verificationapi_uploaddocumentforverification",
+      "src_services_verificationapi_uploadoptions",
+      "src_services_verificationapi_verificationrecord"
+    ],
+    "26": [
+      "src_mocks_locations",
+      "src_mocks_locations_alltowns",
+      "src_mocks_locations_getregionbyid",
+      "src_mocks_locations_getregionbyname",
+      "src_mocks_locations_regions"
+    ],
+    "27": [
+      "src_pages_demo_post_job_page",
+      "src_pages_demo_post_job_page_budget_options",
+      "src_pages_demo_post_job_page_budgetsize",
+      "src_pages_demo_post_job_page_demopostjobpage",
+      "src_pages_demo_post_job_page_timeline_options"
+    ],
+    "28": [
+      "src_pages_jobs_quotes_page",
+      "src_pages_jobs_quotes_page_jobinfo",
+      "src_pages_jobs_quotes_page_quotewithcontractor",
+      "src_pages_jobs_quotes_page_receivedquotes",
+      "src_pages_jobs_quotes_page_receivedquotespage"
+    ],
+    "29": [
+      "src_pages_jobs_requests_page",
+      "src_pages_jobs_requests_page_applicationwithcontractor",
+      "src_pages_jobs_requests_page_jobinfo",
+      "src_pages_jobs_requests_page_jobrequests",
+      "src_pages_jobs_requests_page_jobrequestspage"
+    ],
+    "30": [
+      "src_pages_jobs_submit_quote_page",
+      "src_pages_jobs_submit_quote_page_getleadcostcredits",
+      "src_pages_jobs_submit_quote_page_jobdetails",
+      "src_pages_jobs_submit_quote_page_submitquoteform",
+      "src_pages_jobs_submit_quote_page_submitquotepage"
+    ],
+    "31": [
+      "src_lib_milestonereceipt",
+      "src_lib_milestonereceipt_escapehtml",
+      "src_lib_milestonereceipt_milestonereceiptdata",
+      "src_lib_milestonereceipt_openmilestonereceipt"
+    ],
+    "32": [
+      "src_lib_userdisplay",
+      "src_lib_userdisplay_deleted_user_name",
+      "src_lib_userdisplay_getdisplayname",
+      "src_lib_userdisplay_new_user_name"
+    ],
+    "33": [
+      "src_pages_auth_register_page",
+      "src_pages_auth_register_page_businesstype",
+      "src_pages_auth_register_page_registerpage",
+      "src_pages_auth_register_page_regulated_trades"
+    ],
+    "34": [
+      "src_pages_dashboard_admin_page",
+      "src_pages_dashboard_admin_page_admindashboard",
+      "src_pages_dashboard_admin_page_admindashboardpage",
+      "src_pages_dashboard_admin_page_pendingcontractor"
+    ],
+    "35": [
+      "src_pages_notifications_page",
+      "src_pages_notifications_page_notification",
+      "src_pages_notifications_page_notificationscontent",
+      "src_pages_notifications_page_notificationspage"
+    ],
+    "36": [
+      "src_pages_success_stories_page",
+      "src_pages_success_stories_page_mock_stories",
+      "src_pages_success_stories_page_story",
+      "src_pages_success_stories_page_successstoriespage"
+    ],
+    "37": [
+      "src_pages_tradesperson_reviews_page",
+      "src_pages_tradesperson_reviews_page_contractorinfo",
+      "src_pages_tradesperson_reviews_page_review",
+      "src_pages_tradesperson_reviews_page_tradespersonreviewspage"
+    ],
+    "38": [
+      "src_lib_cloudinary",
+      "src_lib_cloudinary_cloudinaryuploadresult",
+      "src_lib_cloudinary_uploadtocloudinary"
+    ],
+    "39": [
+      "src_mocks_categories",
+      "src_mocks_categories_categories",
+      "src_mocks_categories_category_names"
+    ],
+    "40": [
+      "src_pages_auth_login_page",
+      "src_pages_auth_login_page_friendlyerror",
+      "src_pages_auth_login_page_loginpage"
+    ],
+    "41": [
+      "supabase_functions_invite_user_index",
+      "supabase_functions_invite_user_index_base64urldecode",
+      "supabase_functions_invite_user_index_corsheaders"
+    ],
+    "42": [
+      "tsconfig",
+      "tsconfig_files",
+      "tsconfig_references"
+    ],
+    "43": [
+      "src_config_constants",
+      "src_config_constants_verification_api_url"
+    ],
+    "44": [
+      "src_mocks_jobs",
+      "src_mocks_jobs_jobs"
+    ],
+    "45": [
+      "src_mocks_testimonials",
+      "src_mocks_testimonials_testimonials"
+    ],
+    "46": [
+      "src_mocks_tradespeople",
+      "src_mocks_tradespeople_tradespeople"
+    ],
+    "47": [
+      "src_services_adminlog",
+      "src_services_adminlog_logadminaccess"
+    ],
+    "48": [
+      "tailwind_config",
+      "tailwindcss"
+    ],
+    "49": [
+      "postcss_config"
+    ],
+    "50": [
+      "vite_env_d"
+    ]
+  },
+  "cohesion": {
+    "0": 0.054878048780487805,
+    "1": 0.07058823529411765,
+    "2": 0.06666666666666667,
+    "3": 0.10869565217391304,
+    "4": 0.08095238095238096,
+    "5": 0.12857142857142856,
+    "6": 0.10526315789473684,
+    "7": 0.1111111111111111,
+    "8": 0.16911764705882354,
+    "9": 0.15441176470588236,
+    "10": 0.18095238095238095,
+    "11": 0.13333333333333333,
+    "12": 0.14285714285714285,
+    "13": 0.2087912087912088,
+    "14": 0.15384615384615385,
+    "15": 0.18181818181818182,
+    "16": 0.18181818181818182,
+    "17": 0.21818181818181817,
+    "18": 0.24444444444444444,
+    "19": 0.2222222222222222,
+    "20": 0.2857142857142857,
+    "21": 0.42857142857142855,
+    "22": 0.3333333333333333,
+    "23": 0.3333333333333333,
+    "24": 0.4666666666666667,
+    "25": 0.3333333333333333,
+    "26": 0.4,
+    "27": 0.4,
+    "28": 0.4,
+    "29": 0.4,
+    "30": 0.5,
+    "31": 0.6666666666666666,
+    "32": 0.5,
+    "33": 0.5,
+    "34": 0.5,
+    "35": 0.5,
+    "36": 0.5,
+    "37": 0.5,
+    "38": 0.6666666666666666,
+    "39": 0.6666666666666666,
+    "40": 1.0,
+    "41": 0.6666666666666666,
+    "42": 0.6666666666666666,
+    "43": 1.0,
+    "44": 1.0,
+    "45": 1.0,
+    "46": 1.0,
+    "47": 1.0,
+    "48": 1.0,
+    "49": 1.0,
+    "50": 1.0
+  },
+  "gods": [
+    {
+      "id": "ref_react",
+      "label": "react",
+      "degree": 53
+    },
+    {
+      "id": "ref_react_router_dom",
+      "label": "react-router-dom",
+      "degree": 45
+    },
+    {
+      "id": "tsconfig_app_compileroptions",
+      "label": "compilerOptions",
+      "degree": 28
+    },
+    {
+      "id": "tsconfig_node_compileroptions",
+      "label": "compilerOptions",
+      "degree": 17
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 6
+    },
+    {
+      "id": "src_pages_public_jobs_page_publicjobspage",
+      "label": "PublicJobsPage()",
+      "degree": 5
+    },
+    {
+      "id": "src_pages_control_panel_page_formaterror",
+      "label": "formatError()",
+      "degree": 5
+    },
+    {
+      "id": "eslint_rules_route_element_jsx_create",
+      "label": "create()",
+      "degree": 4
+    },
+    {
+      "id": "src_pages_control_panel_components_verificationdetailmodal_verificationdetailmodal",
+      "label": "VerificationDetailModal()",
+      "degree": 4
+    },
+    {
+      "id": "src_pages_control_panel_components_verificationqueue_verificationqueue",
+      "label": "VerificationQueue()",
+      "degree": 4
+    }
+  ],
+  "surprises": [],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `react` connect `react` to `package.json`, `contractor/page.tsx`, `control-panel/page.tsx`, `PlatformSettingsContext.tsx`, `home/page.tsx`, `config.tsx`, `router/index.ts`, `VerificationQueue.tsx`, `dashboard/project-owner/page.tsx`, `AuthContext.tsx`, `contractors/profile/page.tsx`, `DemoModeContext.tsx`, `tradesperson/page.tsx`, `verification/page.tsx`, `public-jobs/page.tsx`, `post/page.tsx`, `transaction-history/page.tsx`, `post-job/page.tsx`, `quotes/page.tsx`, `requests/page.tsx`, `submit-quote/page.tsx`, `register/page.tsx`, `admin/page.tsx`, `notifications/page.tsx`, `success-stories/page.tsx`, `reviews/page.tsx`, `login/page.tsx`?",
+      "why": "High betweenness centrality (0.288) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `react-router-dom` connect `react` to `package.json`, `contractor/page.tsx`, `control-panel/page.tsx`, `PlatformSettingsContext.tsx`, `home/page.tsx`, `config.tsx`, `router/index.ts`, `dashboard/project-owner/page.tsx`, `contractors/profile/page.tsx`, `tradesperson/page.tsx`, `verification/page.tsx`, `public-jobs/page.tsx`, `how-it-works/page.tsx`, `post/page.tsx`, `transaction-history/page.tsx`, `post-job/page.tsx`, `quotes/page.tsx`, `requests/page.tsx`, `submit-quote/page.tsx`, `register/page.tsx`, `admin/page.tsx`, `notifications/page.tsx`, `success-stories/page.tsx`, `reviews/page.tsx`, `login/page.tsx`?",
+      "why": "High betweenness centrality (0.149) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `devDependencies` connect `devDependencies` to `package.json`?",
+      "why": "High betweenness centrality (0.051) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `Job`, `JobsTabProps`, `JobApplication` to the rest of the system?",
+      "why": "254 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `package.json` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.054878048780487805 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `contractor/page.tsx` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.07058823529411765 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `compilerOptions` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06666666666666667 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

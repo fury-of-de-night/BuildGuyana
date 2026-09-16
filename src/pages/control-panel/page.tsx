@@ -73,7 +73,7 @@ export default function ControlPanelPage() {
     if (hasSession && !emailCheckDone) {
       supabase.auth.getUser().then(({ data }) => {
         const email = data.user?.email;
-        setEmailWhitelisted(email === 'fury65shots@gmail.com');
+        setEmailWhitelisted(email === (process.env.ADMIN_EMAIL || 'admin@buildguyana.gy'));
         setEmailCheckDone(true);
       }).catch(() => {
         setEmailWhitelisted(false);

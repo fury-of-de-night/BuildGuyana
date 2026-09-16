@@ -84,7 +84,7 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-const ADMIN_EMAIL = 'fury65shots@gmail.com';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@buildguyana.gy';
 
 function determineRole(profileData: Profile | null, userEmail: string | undefined): ActiveRole | null {
   if (!profileData) return null;
