@@ -57,7 +57,7 @@ export default function TradeLicenseStep({
           </span>
         </div>
         <label className="cursor-pointer">
-          <input type="file" accept="image/*,.pdf" onChange={handleFileChange} className="hidden" />
+          <input aria-label="Trade License Document" type="file" accept="image/*,.pdf" onChange={handleFileChange} className="hidden" />
           <span className={`text-xs px-3 py-1 rounded-md font-label transition-colors ${
             tradeLicenseDoc
               ? 'bg-green-50 text-green-700 border border-green-200'

@@ -5,6 +5,7 @@ import HowItWorks from "../pages/how-it-works/page";
 import Contractors from "../pages/contractors/page";
 import ContractorProfile from "../pages/contractors/profile/page";
 import Login from "../pages/auth/login/page";
+import ResetPassword from "../pages/auth/reset-password/page";
 import Register from "../pages/auth/register/page";
 import TradespersonDashboard from "../pages/dashboard/contractor/page";
 import ProjectOwnerDashboard from "../pages/dashboard/project-owner/page";
@@ -29,6 +30,7 @@ import PublicJobs from "../pages/public-jobs/page";
 import TransactionHistory from "../pages/transaction-history/page";
 
 const routes: RouteObject[] = [
+  { path: "/reset-password", element: <ResetPassword /> },
   {
     path: "/",
     element: <Home />,

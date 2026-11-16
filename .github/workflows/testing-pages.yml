@@ -1,0 +1,66 @@
+name: Deploy testing preview
+
+on:
+  push:
+    branches: [testing]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-testing
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    if: github.ref == 'refs/heads/testing'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check that Pages is configured for a testing preview
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let page;
+            try {
+              ({ data: page } = await github.rest.repos.getPages(context.repo));
+            } catch (error) {
+              if (error.status === 404) {
+                core.setFailed('Enable Pages in repository Settings > Pages, select GitHub Actions, and allow the testing branch in the github-pages environment. Then rerun this workflow.');
+                return;
+              }
+              throw error;
+            }
+            if (page.cname) {
+              core.setFailed('This repository already publishes to a custom domain. A testing deployment must not replace that site. Use a separate preview repository or hosting project.');
+            } else if (page.build_type !== 'workflow') {
+              core.setFailed('Pages currently uses a branch deployment. Configure GitHub Actions for a dedicated testing site before running this workflow.');
+            }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run type-check
+      - run: npm test -- --maxWorkers=2 --minWorkers=1 --no-cache
+      - name: Build the project-site preview
+        run: npm run build -- --outDir pages-preview
+        env:
+          BASE_PATH: /${{ github.event.repository.name }}/
+      - name: Support direct navigation to application routes
+        run: |
+          cp pages-preview/index.html pages-preview/404.html
+          touch pages-preview/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages-preview
+      - name: Publish preview
+        id: deploy
+        uses: actions/deploy-pages@v4

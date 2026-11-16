@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
+import { AuthGuard } from '@/components/feature/AuthGuard';
 
 interface VerificationUser {
   profile_id: string;
@@ -17,6 +18,8 @@ interface VerificationUser {
   doc_nis: string | null;
   doc_profile: string | null;
   doc_id_card: string | null;
+  doc_id_front: string | null;
+  doc_id_back: string | null;
   doc_passport: string | null;
   id_verification_status: string;
   is_business: boolean;
@@ -41,7 +44,7 @@ const DOC_ICONS: Record<DocKey, string> = {
 };
 
 export default function VerificationPage() {
-  return <VerificationDetail />;
+  return <AuthGuard requiredRole="admin"><VerificationDetail /></AuthGuard>;
 }
 
 function VerificationDetail() {
@@ -103,6 +106,8 @@ function VerificationDetail() {
         doc_nis: contractorData.doc_nis || null,
         doc_profile: contractorData.doc_profile || null,
         doc_id_card: contractorData.doc_id_card || null,
+        doc_id_front: contractorData.doc_id_front || null,
+        doc_id_back: contractorData.doc_id_back || null,
         doc_passport: contractorData.doc_passport || null,
         id_verification_status: contractorData.id_verification_status || 'pending',
         is_business: contractorData.is_business || false,
@@ -547,7 +552,7 @@ function VerificationDetail() {
             </span>
           </div>
 
-          {(!contractor.doc_id_card && !contractor.doc_passport) ? (
+          {(!contractor.doc_id_card && !contractor.doc_id_front && !contractor.doc_id_back && !contractor.doc_passport) ? (
             <div className="text-center py-6 bg-background-50 border border-background-200/70 rounded-lg">
               <div className="w-10 h-10 mx-auto mb-2 flex items-center justify-center">
                 <i className="ri-id-card-line text-xl text-foreground-400" />
@@ -557,7 +562,8 @@ function VerificationDetail() {
           ) : (
             <div className="space-y-4">
               {[
-                { label: 'National ID Card', url: contractor.doc_id_card, key: 'id-card' },
+                { label: 'National ID Card (Front)', url: contractor.doc_id_front || contractor.doc_id_card, key: 'id-front' },
+                { label: 'National ID Card (Back)', url: contractor.doc_id_back, key: 'id-back' },
                 { label: 'Passport', url: contractor.doc_passport, key: 'passport' },
               ].map((doc) => {
                 if (!doc.url) return null;

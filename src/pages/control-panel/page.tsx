@@ -1,13 +1,14 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
+import { AuthGuard } from '@/components/feature/AuthGuard';
+import { isAdminEmail } from '@/lib/admin';
 import { logAdminAccess } from '@/services/adminLog';
 import { tradespeople } from '@/mocks/tradespeople';
 import VerificationQueue from './components/VerificationQueue';
 import PendingTopUps from './components/PendingTopUps';
 import InviteUserTab from './components/InviteUserTab';
 
-const DEFAULT_PIN = '9922';
 
 interface PendingContractor {
   id: string;
@@ -31,13 +32,17 @@ interface PlatformSetting {
 type TabKey = 'verification' | 'verification_api' | 'settings' | 'credits' | 'notifications' | 'data' | 'pending_topups' | 'invite_user';
 
 export default function ControlPanelPage() {
+  return <AuthGuard requiredRole="admin"><ControlPanel /></AuthGuard>;
+}
+
+function ControlPanel() {
   const [pin, setPin] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
   const [pinError, setPinError] = useState('');
   const [activeTab, setActiveTab] = useState<TabKey>('verification');
   const [hasSession, setHasSession] = useState<boolean | null>(null);
   const [sessionCheckDone, setSessionCheckDone] = useState(false);
-  const [storedPin, setStoredPin] = useState<string>(DEFAULT_PIN);
+  const [storedPin, setStoredPin] = useState<string | null>(null);
   const [pinLoading, setPinLoading] = useState(true);
   const [changePinModal, setChangePinModal] = useState(false);
   const [oldPin, setOldPin] = useState('');
@@ -65,7 +70,6 @@ export default function ControlPanelPage() {
       setSessionCheckDone(true);
       setPinLoading(false);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Email whitelist check — runs after session is confirmed
@@ -73,7 +77,7 @@ export default function ControlPanelPage() {
     if (hasSession && !emailCheckDone) {
       supabase.auth.getUser().then(({ data }) => {
         const email = data.user?.email;
-        setEmailWhitelisted(email === (process.env.ADMIN_EMAIL || 'admin@buildguyana.gy'));
+        setEmailWhitelisted(isAdminEmail(email));
         setEmailCheckDone(true);
       }).catch(() => {
         setEmailWhitelisted(false);
@@ -105,11 +109,11 @@ export default function ControlPanelPage() {
         .maybeSingle();
 
       if (error) throw error;
-      if (data?.value) {
-        setStoredPin(data.value);
-      }
+      if (!data?.value) throw new Error('Control panel PIN is not configured.');
+      setStoredPin(data.value);
     } catch (err) {
-      console.warn('Could not fetch stored PIN, using default:', err);
+      setStoredPin(null);
+      setPinError('Unable to load the control panel PIN. Please reload and try again.');
     } finally {
       setPinLoading(false);
     }
@@ -117,7 +121,7 @@ export default function ControlPanelPage() {
 
   const handlePinSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (pin === storedPin) {
+    if (storedPin && pin === storedPin && hasSession && emailWhitelisted) {
       setAuthenticated(true);
       setPinError('');
     } else {
@@ -128,11 +132,8 @@ export default function ControlPanelPage() {
 
   const handleLock = () => {
     setAuthenticated(false);
-    setSessionCheckDone(false);
-    setHasSession(null);
-    setEmailWhitelisted(null);
-    setEmailCheckDone(false);
     setPin('');
+    setPinError('');
   };
 
   const handleOpenChangePin = () => {
@@ -230,7 +231,7 @@ export default function ControlPanelPage() {
             />
             <button
               type="submit"
-              disabled={pin.length === 0 || pinLoading}
+              disabled={pin.length === 0 || pinLoading || !storedPin || !emailWhitelisted}
               className="w-full mt-4 py-2.5 px-4 bg-primary-500 hover:bg-primary-600 text-background-50 text-sm font-label font-medium rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap cursor-pointer"
             >
               Unlock
@@ -808,7 +809,7 @@ function VerificationTab() {
                 <tr key={c.id} className="border-b border-background-200/70 last:border-0 hover:bg-background-50/50 transition-colors">
                   <td className="px-4 py-3">
                     <button
-                      onClick={() => window.location.href = `/control-panel/verification/${c.profile_id}`}
+                      onClick={() => window.location.href = `${__BASE_PATH__}control-panel/verification/${c.profile_id}`}
                       className="text-left hover:text-primary-500 transition-colors cursor-pointer"
                     >
                       <p className="text-foreground-800 text-xs font-medium">{c.full_name}</p>

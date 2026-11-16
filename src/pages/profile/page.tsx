@@ -973,7 +973,7 @@ function MyProfile() {
                 </div>
 
                 {/* ID Verification Status */}
-                {(contractorProfile.doc_id_card || contractorProfile.doc_passport || contractorProfile.id_verification_status) && (
+                {(contractorProfile.doc_id_front || contractorProfile.doc_id_back || contractorProfile.doc_id_card || contractorProfile.doc_passport || contractorProfile.id_verification_status) && (
                   <div className="pt-4 border-t border-background-200/70">
                     <label className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
                       ID Verification
@@ -1011,7 +1011,8 @@ function MyProfile() {
 
                     <div className="grid grid-cols-2 gap-2 mt-3">
                       {[
-                        { label: 'National ID Card', url: contractorProfile.doc_id_card, icon: 'ri-id-card-line' },
+                        { label: 'National ID Card (Front)', url: contractorProfile.doc_id_front || contractorProfile.doc_id_card, icon: 'ri-id-card-line' },
+                        { label: 'National ID Card (Back)', url: contractorProfile.doc_id_back, icon: 'ri-id-card-line' },
                         { label: 'Passport', url: contractorProfile.doc_passport, icon: 'ri-passport-line' },
                       ].map((doc) => (
                         <div key={doc.label} className="flex items-center gap-2 p-2.5 bg-background-50 border border-background-200/70 rounded-md">

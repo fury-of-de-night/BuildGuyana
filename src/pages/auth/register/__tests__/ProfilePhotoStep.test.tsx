@@ -20,7 +20,7 @@ describe('ProfilePhotoStep', () => {
         onFileChange={vi.fn()}
       />
     );
-    expect(screen.getByRole('img', { name: /Preview/i })).toBeNull();
+    expect(screen.queryByRole('img', { name: /Preview/i })).not.toBeInTheDocument();
   });
 
   it('shows preview image when preview URL provided', () => {
@@ -42,7 +42,7 @@ describe('ProfilePhotoStep', () => {
         onFileChange={onFileChange}
       />
     );
-    const fileInput = screen.getByLabelText(/Profile Photo/i).querySelector('input[type="file"]');
+    const fileInput = screen.getByLabelText(/Profile Photo/i);
     fireEvent.change(fileInput, { target: { files: [new File(['x'], 'photo.jpg')] } });
     expect(onFileChange).toHaveBeenCalledWith(expect.any(File));
   });
@@ -55,7 +55,7 @@ describe('ProfilePhotoStep', () => {
         onFileChange={onFileChange}
       />
     );
-    const fileInput = screen.getByLabelText(/Profile Photo/i).querySelector('input[type="file"]');
+    const fileInput = screen.getByLabelText(/Profile Photo/i);
     fireEvent.change(fileInput, { target: { files: [] } });
     expect(onFileChange).toHaveBeenCalledWith(null);
   });

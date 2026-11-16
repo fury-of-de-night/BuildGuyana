@@ -56,6 +56,10 @@ export const DEMO_TRADESPERSON_PROFILE: Profile = {
   created_at: '2026-01-15T00:00:00Z',
   is_tradesperson: true,
   is_project_owner: true,
+  deleted_at: null,
+  accepted_policy_version: null,
+  reliable_payer_points: 0,
+  trustworthy_pro_points: 0,
 };
 
 export const DEMO_TRADESPERSON_CONTRACTOR: ContractorProfile = {
@@ -70,6 +74,19 @@ export const DEMO_TRADESPERSON_CONTRACTOR: ContractorProfile = {
   verified: true,
   verification_status: 'verified',
   verification_doc_url: null,
+  doc_id_card: null,
+  doc_passport: null,
+  total_leads_unlocked: 0,
+  is_business: false,
+  business_name: null,
+  is_verified_business: false,
+  business_type: 'sole_proprietor',
+  director_ids: [],
+  payment_method_details: null,
+  payout_details: null,
+  trial_started_at: null,
+  trial_shortlists_used: 0,
+  materials_supplied: [],
   doc_business_reg: 'https://res.cloudinary.com/buildguyana/demo/business-reg-rajesh-singh.pdf',
   doc_gra: null,
   doc_nis: null,
@@ -103,6 +120,10 @@ export const DEMO_PROJECT_OWNER_PROFILE: Profile = {
   created_at: '2026-02-20T00:00:00Z',
   is_tradesperson: true,
   is_project_owner: true,
+  deleted_at: null,
+  accepted_policy_version: null,
+  reliable_payer_points: 0,
+  trustworthy_pro_points: 0,
 };
 
 export const DEMO_WALLET_BALANCE = 50;

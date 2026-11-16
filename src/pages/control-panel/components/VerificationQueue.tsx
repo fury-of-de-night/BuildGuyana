@@ -1,3 +1,4 @@
+import { normalizeVerificationStatus as normalizeStatus } from '@/lib/verificationStatus';
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import VerificationDetailModal from './VerificationDetailModal';
@@ -36,9 +37,7 @@ const STATUS_MAP: Record<string, { border: string; bg: string; dot: string; labe
   processing: { border: 'border-secondary-300/60', bg: 'bg-secondary-50/60', dot: 'bg-secondary-500', label: 'Processing' },
 };
 
-function normalizeStatus(status: string): string {
-  return (status || '').toLowerCase().trim();
-}
+
 
 function getStatusInfo(status: string) {
   const key = normalizeStatus(status);

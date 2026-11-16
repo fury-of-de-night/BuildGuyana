@@ -45,7 +45,7 @@ describe('ComplianceDocsStep', () => {
       { key: 'gra', label: 'GRA Compliance', state: new File(['x'], 'gra.pdf'), setState: vi.fn() },
       { key: 'nis', label: 'NIS Compliance', state: null, setState: vi.fn() },
     ];
-    render({
+    renderComponent({
       title: 'Compliance Documents',
       description: 'Test',
       documents,

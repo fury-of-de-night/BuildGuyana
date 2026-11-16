@@ -21,6 +21,7 @@ export default function ComplianceDocsStep({ title, description, documents }: Pr
             <span className="text-xs text-foreground-700 font-label">{doc.label}</span>
             <label className="cursor-pointer">
               <input
+                aria-label={doc.label}
                 type="file"
                 accept="image/*,.pdf"
                 onChange={(e) => doc.setState(e.target.files?.[0] ?? null)}

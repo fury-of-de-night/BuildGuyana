@@ -76,7 +76,7 @@ image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 
     rating: 4.6,
     reviewCount: 21,
     yearsExperience: 18,
-image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d1d5db'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E",    image: 'https://readdy.ai/api/search-image?query=Professional%20male%20fencing%20contractor%20portrait%2C%20Caribbean%20South%20Asian%20descent%2C%20wearing%20work%20shirt%2C%20warm%20natural%20lighting%2C%20studio%20background%20with%20orange%20tone%2C%20editorial%20headshot%20photography%20with%20warm%20earthy%20atmosphere&width=400&height=500&seq=tp-omar-v2&orientation=portrait',
+image: 'https://readdy.ai/api/search-image?query=Professional%20male%20fencing%20contractor%20portrait%2C%20Caribbean%20South%20Asian%20descent%2C%20wearing%20work%20shirt%2C%20warm%20natural%20lighting%2C%20studio%20background%20with%20orange%20tone%2C%20editorial%20headshot%20photography%20with%20warm%20earthy%20atmosphere&width=400&height=500&seq=tp-omar-v2&orientation=portrait',
     verified: false,
     description: 'Master fence builder — chain-link, wooden picket, concrete panel fencing, and automated gate systems.',
   },

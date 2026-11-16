@@ -29,7 +29,7 @@ describe('SecondaryTradesStep', () => {
 
   it('shows max-sub reached badge for unselected trades at limit', () => {
     const secondTrades = CATEGORY_NAMES.slice(0, 3);
-    renderComponent({ secondaryTrades: secondTrades, selectedCategory: '' });
+    renderComponent({ secondaryTrades: secondTrades, selectedCategory: '', secondaryDropdownOpen: true });
     // Each unselected trade at limit should show max-reached chip
     const maxReached = screen.getAllByText('max reached');
     expect(maxReached.length).toBeGreaterThan(0);
@@ -44,7 +44,7 @@ describe('SecondaryTradesStep', () => {
 
   it('calls onToggleTrade when an option is clicked', () => {
     const onToggleTrade = vi.fn();
-    renderComponent({ selectedCategory: '', onToggleTrade });
+    renderComponent({ selectedCategory: '', secondaryDropdownOpen: true, onToggleTrade });
     const firstTrade = CATEGORY_NAMES[0];
     // Open dropdown by clicking toggle
     fireEvent.click(screen.getByText('Select additional trades...'));

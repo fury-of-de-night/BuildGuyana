@@ -110,21 +110,23 @@ export function MilestonesTab() {
     if (!activeMilestone) return;
     setMarkingPaid(true);
     try {
-      await supabase
+      const { error: paymentError } = await supabase
         .from('milestones')
         .update({ status: 'paid', homeowner_approved_at: new Date().toISOString() })
         .eq('id', activeMilestone.milestone.id);
+      if (paymentError) throw paymentError;
 
       if (activeMilestone.group.contractorProfileId) {
-        await supabase.from('notifications').insert({
+        const { error: notificationError } = await supabase.from('notifications').insert({
           user_id: activeMilestone.group.contractorProfileId,
           title: 'Milestone marked as paid',
           message: `A project owner approved and marked the "${activeMilestone.milestone.phase_name}" milestone as paid. Please confirm receipt from your Milestones tab.`,
           is_read: false,
         });
+        if (notificationError) console.error('Payment recorded but notification failed:', notificationError);
       }
 
-      setToast('Milestone marked as paid and the tradesperson has been notified.');
+      setToast('Milestone marked as paid.');
       setActiveMilestone(null);
       await fetchMilestones();
     } catch (err: any) {

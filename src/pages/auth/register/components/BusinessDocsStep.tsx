@@ -33,6 +33,7 @@ export default function BusinessDocsStep({
           </div>
           <label className="cursor-pointer">
             <input
+              aria-label="Business Registration Document"
               type="file"
               accept="image/*,.pdf"
               onChange={(e) => onDocBusinessRegChange(e.target.files?.[0] ?? null)}
@@ -76,6 +77,7 @@ export default function BusinessDocsStep({
                 </div>
                 <label className="cursor-pointer">
                   <input
+                    aria-label={`Director ${index + 1} ID`}
                     type="file"
                     accept="image/*,.pdf"
                     onChange={(e) => onDirectorFileChange(index, e.target.files?.[0] ?? null)}

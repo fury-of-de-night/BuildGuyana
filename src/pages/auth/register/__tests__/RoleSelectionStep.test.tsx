@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import RoleSelectionStep from '../components/RoleSelectionStep';
 
 describe('RoleSelectionStep', () => {
-  const renderComponent = (role = 'project_owner', onRoleChange = vi.fn()) =>
+  const renderComponent = (role: import('../register.types').Role = 'project_owner', onRoleChange = vi.fn()) =>
     render(<RoleSelectionStep role={role} onRoleChange={onRoleChange} />);
 
   it('renders both role options', () => {

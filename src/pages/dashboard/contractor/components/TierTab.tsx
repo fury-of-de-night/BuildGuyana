@@ -105,10 +105,10 @@ export function TierTab() {
   useEffect(() => {
     if (!contractorProfile) return;
 
-    supabase
+    Promise.resolve(supabase
       .from('shortlists')
       .select('*', { count: 'exact', head: true })
-      .eq('contractor_id', contractorProfile.id)
+      .eq('contractor_id', contractorProfile.id))
       .then(({ count, error }) => {
         if (!error && count !== null) {
           setShortlistCount(count);

@@ -32,20 +32,16 @@ describe('BusinessDocsStep', () => {
   it('calls onDocBusinessRegChange when business reg file is selected', () => {
     const onDocBusinessRegChange = vi.fn();
     renderComponent({ onDocBusinessRegChange });
-    const fileInput = screen.getByText('Upload').closest('label')?.querySelector('input[type="file"]');
-    if (fileInput) {
-      fireEvent.change(fileInput, { target: { files: [new File(['x'], 'biz-reg.pdf')] } });
-      expect(onDocBusinessRegChange).toHaveBeenCalledWith(expect.any(File));
-    }
+    const fileInput = screen.getByLabelText('Business Registration Document');
+    fireEvent.change(fileInput, { target: { files: [new File(['x'], 'biz-reg.pdf')] } });
+    expect(onDocBusinessRegChange).toHaveBeenCalledWith(expect.any(File));
   });
 
   it('calls onDirectorFileChange when a director ID is selected', () => {
     const onDirectorFileChange = vi.fn();
     renderComponent({ onDirectorFileChange });
-    const firstDirectorRow = screen.getByText('Director 1 ID').closest('div')?.querySelector('input[type="file"]');
-    if (firstDirectorRow) {
-      fireEvent.change(firstDirectorRow, { target: { files: [new File(['x'], 'id.pdf')] } });
-      expect(onDirectorFileChange).toHaveBeenCalledWith(0, expect.any(File));
-    }
+    const fileInput = screen.getByLabelText('Director 1 ID');
+    fireEvent.change(fileInput, { target: { files: [new File(['x'], 'id.pdf')] } });
+    expect(onDirectorFileChange).toHaveBeenCalledWith(0, expect.any(File));
   });
 });

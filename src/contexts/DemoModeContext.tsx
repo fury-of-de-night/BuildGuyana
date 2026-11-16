@@ -27,6 +27,7 @@ export interface DemoQuote {
 }
 
 export interface DemoNotification {
+  sender_name?: string;
   id: string;
   title: string;
   message: string;
@@ -211,7 +212,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   const exitDemo = useCallback(() => {
     sessionStorage.removeItem(DEMO_STORAGE_KEY);
     setIsDemo(false);
-    window.location.href = '/'; // Force full reload to clear all in-memory demo state
+    window.location.href = __BASE_PATH__; // Reload inside the configured site base path.
   }, []);
 
   const resetDemo = useCallback(() => {

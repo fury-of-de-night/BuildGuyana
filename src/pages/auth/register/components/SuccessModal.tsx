@@ -4,6 +4,7 @@ import Footer from '@/components/feature/Footer';
 
 interface Props {
   email: string;
+  warning?: string;
   role: 'project_owner' | 'tradesperson';
   resending: boolean;
   resentMessage: string;
@@ -12,6 +13,7 @@ interface Props {
 
 export default function SuccessModal({
   email,
+  warning,
   role,
   resending,
   resentMessage,
@@ -37,7 +39,8 @@ export default function SuccessModal({
               Click the link in the email to verify your account, then sign in to get started.
             </p>
 
-            {role === 'tradesperson' && (
+            {warning && <p role="status" className="mb-6 rounded-md bg-amber-50 p-3 text-sm text-amber-900">{warning}</p>}
+            {role === 'tradesperson' && !warning && (
               <div className="mb-6 p-4 bg-background-100 rounded-md text-left">
                 <p className="text-sm font-medium text-foreground-800 mb-1">
                   <i className="ri-information-line mr-1.5 text-foreground-500" />

@@ -93,28 +93,32 @@ export function MilestonesTab() {
   ) => {
     if (!profileId) return;
     try {
-      const { data } = await supabase
+      const { data, error: fetchError } = await supabase
         .from('profiles')
         .select(column)
         .eq('id', profileId)
         .maybeSingle();
+      if (fetchError) throw fetchError;
       const current = Number(data?.[column]) || 0;
-      await supabase
+      const { error: updateError } = await supabase
         .from('profiles')
         .update({ [column]: current + 1 })
         .eq('id', profileId);
+      if (updateError) throw updateError;
     } catch (err) {
       console.error('Failed to increment reward points:', err);
+      throw err;
     }
   };
 
   const handleConfirmReceipt = async (item: MilestoneItem) => {
     setConfirming(item.id);
     try {
-      await supabase
+      const { error: confirmationError } = await supabase
         .from('milestones')
         .update({ status: 'confirmed', contractor_confirmed_paid_at: new Date().toISOString() })
         .eq('id', item.id);
+      if (confirmationError) throw confirmationError;
 
       await incrementPoints(item.homeowner_id, 'reliable_payer_points');
       if (contractorProfile?.profile_id) {
@@ -124,7 +128,7 @@ export function MilestonesTab() {
       setToast('Receipt confirmed. Reward points awarded!');
       await fetchMilestones();
     } catch (err: any) {
-      setToast('Failed to confirm receipt. Please try again.');
+      setToast('Could not complete confirmation and rewards. Refresh to check the current status before retrying.');
     } finally {
       setConfirming(null);
       setTimeout(() => setToast(''), 4000);

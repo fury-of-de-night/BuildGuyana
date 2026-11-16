@@ -17,7 +17,7 @@ export default function ProfilePhotoStep({ preview, onFileChange, previewUrl }: 
 
   return (
     <div>
-      <label className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
+      <label htmlFor="profile-photo" className="block text-sm font-medium text-foreground-700 mb-1.5 font-label">
         Profile Photo (Optional)
       </label>
       <div className="flex items-center gap-4">
@@ -36,6 +36,7 @@ export default function ProfilePhotoStep({ preview, onFileChange, previewUrl }: 
         </div>
         <div>
           <input
+            id="profile-photo"
             type="file"
             accept="image/*"
             onChange={handleChange}

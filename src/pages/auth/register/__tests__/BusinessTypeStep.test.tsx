@@ -5,7 +5,7 @@ import BusinessTypeStep from '../components/BusinessTypeStep';
 describe('BusinessTypeStep', () => {
   const renderComponent = (overrides: Record<string, unknown> = {}) => {
     const props = {
-      businessType: '',
+      businessType: '' as import('../register.types').BusinessType,
       onBusinessTypeChange: vi.fn(),
       companyName: '',
       onCompanyNameChange: vi.fn(),

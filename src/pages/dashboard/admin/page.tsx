@@ -23,22 +23,19 @@ interface PendingContractor {
 
 export default function AdminDashboardPage() {
   return (
-    <AuthGuard>
+    <AuthGuard requiredRole="admin">
       <AdminDashboard />
     </AuthGuard>
   );
 }
 
 function AdminDashboard() {
-  const { profile, user, loading } = useAuth();
+  const { profile, user, loading, isAdmin } = useAuth();
   const { isDemo } = useDemo();
   const [pendingContractors, setPendingContractors] = useState<PendingContractor[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
-
-  // Hardcode fury65shots@gmail.com as the admin — checks email directly, not the DB role column
-  const isAdmin = user?.email === process.env.ADMIN_EMAIL || 'admin@buildguyana.gy';
 
   const fetchPending = useCallback(async () => {
     setLoadingData(true);

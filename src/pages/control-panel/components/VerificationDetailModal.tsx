@@ -1,3 +1,4 @@
+import { normalizeVerificationStatus as normalizeStatus } from '@/lib/verificationStatus';
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 
@@ -31,9 +32,7 @@ interface VerificationDetailModalProps {
   onUpdate: () => void;
 }
 
-function normalizeStatus(status: string): string {
-  return (status || '').toLowerCase().trim();
-}
+
 
 // ADD THIS NEW FUNCTION HERE:
 function isValidHttpUrl(url: string | null | undefined): boolean {

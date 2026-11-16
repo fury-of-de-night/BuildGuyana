@@ -192,7 +192,7 @@ function getMockReviews(id: string): Review[] {
 export default function ContractorProfilePage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { user, contractorProfile } = useAuth();
+  const { user, contractorProfile, profile: authProfile } = useAuth();
   const { isDemo } = useDemo();
 
   const [profile, setProfile] = useState<FullProfile | null>(null);
@@ -281,7 +281,7 @@ export default function ContractorProfilePage() {
 
       const contractorResult = await supabase
         .from('contractors')
-        .select('id, profile_id, category, categories, rating, review_count, years_experience, verified, bio, facebook_page_url, portfolio_images, id_verification_status, doc_business_reg, trade_license_status, id_verification_expiry_date, business_verification_expiry_date, trade_license_expiry_date')
+        .select('id, profile_id, region, category, categories, rating, review_count, years_experience, verified, bio, facebook_page_url, portfolio_images, id_verification_status, doc_business_reg, trade_license_status, id_verification_expiry_date, business_verification_expiry_date, trade_license_expiry_date')
         .eq('id', id)
         .maybeSingle();
 
@@ -454,8 +454,8 @@ export default function ContractorProfilePage() {
             .maybeSingle();
 
           if (contractorData?.profile_id) {
-            const ownerName = profile?.full_name || user.email || 'A project owner';
-            const contractorName = profile?.full_name || 'You';
+            const ownerName = authProfile?.full_name || user.email || 'A project owner';
+            const contractorName = authProfile?.full_name || 'You';
             await supabase
               .from('notifications')
               .insert({

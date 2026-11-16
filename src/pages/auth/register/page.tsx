@@ -28,6 +28,11 @@ type BusinessType = '' | 'sole_proprietor' | 'registered_company';
 
 const REGULATED_TRADES = ['Electrical Work', 'Plumbing'];
 
+async function requireSaved(request: PromiseLike<{ error: { message: string } | null }>) {
+  const { error } = await request;
+  if (error) throw new Error(error.message);
+}
+
 export default function RegisterPage() {
   const { user, profile, activeRole, loading, refreshProfile } = useAuth();
   const navigate = useNavigate();
@@ -61,6 +66,7 @@ export default function RegisterPage() {
   const [profilePhotoFile, setProfilePhotoFile] = useState<File | null>(null);
   const [profilePhotoPreview, setProfilePhotoPreview] = useState('');
   const [error, setError] = useState('');
+  const [documentWarning, setDocumentWarning] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [step, setStep] = useState(1);
@@ -144,6 +150,10 @@ export default function RegisterPage() {
     fetchPolicy();
   }, []);
 
+  useEffect(() => () => {
+    if (profilePhotoPreview.startsWith('blob:')) URL.revokeObjectURL(profilePhotoPreview);
+  }, [profilePhotoPreview]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background-50">
@@ -163,13 +173,6 @@ export default function RegisterPage() {
     }
   };
 
-  const handleProfilePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setProfilePhotoFile(file);
-      setProfilePhotoPreview(URL.createObjectURL(file));
-    }
-  };
 
   const toggleSecondaryTrade = (tradeName: string) => {
     setSecondaryTrades((prev) => {
@@ -214,6 +217,7 @@ export default function RegisterPage() {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
+    setDocumentWarning('');
     setSubmitting(true);
 
     try {
@@ -235,8 +239,9 @@ export default function RegisterPage() {
         if (profilePhotoFile) {
           try {
             const result = await uploadToCloudinary(profilePhotoFile);
-            await supabase.from('profiles').update({ avatar_url: result.secure_url }).eq('id', currentUser.id);
+            await requireSaved(supabase.from('profiles').update({ avatar_url: result.secure_url }).eq('id', currentUser.id));
           } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.');
             console.error('[Register] Profile photo upload failed:', uploadErr);
           }
         }
@@ -271,6 +276,7 @@ export default function RegisterPage() {
               const result = await uploadToCloudinary(file);
               docUpdates[field] = result.secure_url;
             } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.');
               console.error(`[Register] ${label} upload failed:`, uploadErr);
             }
           };
@@ -280,27 +286,30 @@ export default function RegisterPage() {
           await uploadDoc('Company Profile', docProfile, 'doc_profile');
 
           if (Object.keys(docUpdates).length > 0) {
-            await supabase.from('contractors').update(docUpdates).eq('profile_id', currentUser.id);
+            await requireSaved(supabase.from('contractors').update(docUpdates).eq('profile_id', currentUser.id));
           }
 
           // Upload ID docs
           if (docIdFront) {
             try {
               const result = await uploadToCloudinary(docIdFront);
-              await supabase.from('contractors').update({ doc_id_front: result.secure_url, id_verification_status: 'pending' }).eq('profile_id', currentUser.id);
-            } catch (uploadErr) { console.error('[Register] ID Front upload failed:', uploadErr); }
+              await requireSaved(supabase.from('contractors').update({ doc_id_front: result.secure_url, id_verification_status: 'pending' }).eq('profile_id', currentUser.id));
+            } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.'); console.error('[Register] ID Front upload failed:', uploadErr); }
           }
           if (docIdBack) {
             try {
               const result = await uploadToCloudinary(docIdBack);
-              await supabase.from('contractors').update({ doc_id_back: result.secure_url, id_verification_status: 'pending' }).eq('profile_id', currentUser.id);
-            } catch (uploadErr) { console.error('[Register] ID Back upload failed:', uploadErr); }
+              await requireSaved(supabase.from('contractors').update({ doc_id_back: result.secure_url, id_verification_status: 'pending' }).eq('profile_id', currentUser.id));
+            } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.'); console.error('[Register] ID Back upload failed:', uploadErr); }
           }
           if (docPassport) {
             try {
               const result = await uploadToCloudinary(docPassport);
-              await supabase.from('contractors').update({ doc_passport: result.secure_url, id_verification_status: 'pending' }).eq('profile_id', currentUser.id);
-            } catch (uploadErr) { console.error('[Register] Passport upload failed:', uploadErr); }
+              await requireSaved(supabase.from('contractors').update({ doc_passport: result.secure_url, id_verification_status: 'pending' }).eq('profile_id', currentUser.id));
+            } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.'); console.error('[Register] Passport upload failed:', uploadErr); }
           }
 
           // Company-specific uploads: Business Registration + Director IDs
@@ -308,9 +317,9 @@ export default function RegisterPage() {
             if (docBusinessRegForCompany) {
               try {
                 const result = await uploadToCloudinary(docBusinessRegForCompany);
-                await supabase.from('contractors').update({ doc_business_reg: result.secure_url }).eq('profile_id', currentUser.id);
+                await requireSaved(supabase.from('contractors').update({ doc_business_reg: result.secure_url }).eq('profile_id', currentUser.id));
                 // Insert verification record
-                await supabase.from('verifications').insert({
+                const { data: pendingVerification, error: pendingError } = await supabase.from('verifications').insert({
                   user_id: currentUser.id,
                   filename: `biz-reg-${Date.now()}`,
                   original_filename: docBusinessRegForCompany.name,
@@ -319,16 +328,20 @@ export default function RegisterPage() {
                   status: 'PENDING',
                   confidence: 0,
                   source: 'manual_upload',
-                });
+                }).select('id').single();
+                if (pendingError) throw pendingError;
 
                 // Also notify Python verification backend
-                uploadDocumentForVerification({
+                const verification = await uploadDocumentForVerification({
+                  verificationId: pendingVerification.id,
                   file: docBusinessRegForCompany,
                   userId: currentUser.id,
                   documentType: 'Business Registration',
                   documentUrl: result.secure_url,
-                }).catch((apiErr) => console.error('[Register] Verification API call failed:', apiErr));
-              } catch (uploadErr) { console.error('[Register] Company Biz Reg upload failed:', uploadErr); }
+                });
+                if (!verification.success) setDocumentWarning('Your document was saved for review, but automatic verification could not finish. ' + verification.message);
+              } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.'); console.error('[Register] Company Biz Reg upload failed:', uploadErr); }
             }
 
             const directorUrls: string[] = [];
@@ -337,10 +350,11 @@ export default function RegisterPage() {
               try {
                 const result = await uploadToCloudinary(validDirectorFiles[i]);
                 directorUrls.push(result.secure_url);
-              } catch (uploadErr) { console.error(`[Register] Director ${i + 1} ID upload failed:`, uploadErr); }
+              } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.'); console.error(`[Register] Director ${i + 1} ID upload failed:`, uploadErr); }
             }
             if (directorUrls.length > 0) {
-              await supabase.from('contractors').update({ director_ids: directorUrls }).eq('profile_id', currentUser.id);
+              await requireSaved(supabase.from('contractors').update({ director_ids: directorUrls }).eq('profile_id', currentUser.id));
             }
           }
 
@@ -348,7 +362,7 @@ export default function RegisterPage() {
           if (businessType === 'sole_proprietor' && docIdFront) {
             try {
               const result = await uploadToCloudinary(docIdFront);
-              await supabase.from('verifications').insert({
+              const { data: pendingVerification, error: pendingError } = await supabase.from('verifications').insert({
                 user_id: currentUser.id,
                 filename: `id-front-${Date.now()}`,
                 original_filename: docIdFront.name,
@@ -357,16 +371,20 @@ export default function RegisterPage() {
                 status: 'PENDING',
                 confidence: 0,
                 source: 'manual_upload',
-              });
+              }).select('id').single();
+              if (pendingError) throw pendingError;
 
               // Also notify Python verification backend
-              uploadDocumentForVerification({
+              const verification = await uploadDocumentForVerification({
+                verificationId: pendingVerification.id,
                 file: docIdFront,
                 userId: currentUser.id,
                 documentType: 'National ID (Front)',
                 documentUrl: result.secure_url,
-              }).catch((apiErr) => console.error('[Register] Verification API call failed:', apiErr));
-            } catch (uploadErr) { console.error('[Register] Verification insert failed:', uploadErr); }
+              });
+                if (!verification.success) setDocumentWarning('Your document was saved for review, but automatic verification could not finish. ' + verification.message);
+            } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.'); console.error('[Register] Verification insert failed:', uploadErr); }
           }
         }
 
@@ -381,10 +399,11 @@ export default function RegisterPage() {
               const tradeDocResult = await uploadToCloudinary(tradeLicenseDoc);
               tradeUpdates.trade_license_doc_url = tradeDocResult.secure_url;
             } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.');
               console.error('[Register] Trade license upload failed:', uploadErr);
             }
           }
-          await supabase.from('contractors').update(tradeUpdates).eq('profile_id', currentUser.id);
+          await requireSaved(supabase.from('contractors').update(tradeUpdates).eq('profile_id', currentUser.id));
         }
 
         await refreshProfile();
@@ -445,11 +464,21 @@ export default function RegisterPage() {
 
       console.log('[Register] Signup successful for userId:', userId);
 
+      if (!signUpResult.data.session) {
+        setRegisteredEmail(email.trim());
+        setDocumentWarning('Confirm your email and sign in before uploading your profile photo or verification documents. Documents selected here have not been saved.');
+        setShowSuccessModal(true);
+        setSubmitting(false);
+        return;
+      }
+
+
       if (profilePhotoFile) {
         try {
           const result = await uploadToCloudinary(profilePhotoFile);
-          await supabase.from('profiles').update({ avatar_url: result.secure_url }).eq('id', userId);
+          await requireSaved(supabase.from('profiles').update({ avatar_url: result.secure_url }).eq('id', userId));
         } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.');
           console.error('[Register] Profile photo upload failed:', uploadErr);
         }
       }
@@ -493,7 +522,7 @@ export default function RegisterPage() {
           baseUpdates.secondary_trades = secondaryTrades;
         }
 
-        await supabase.from('contractors').update(baseUpdates).eq('id', contractorId);
+        await requireSaved(supabase.from('contractors').update(baseUpdates).eq('id', contractorId));
 
         const updates: Record<string, string> = {};
         const uploadDoc = async (label: string, file: File | null, field: string) => {
@@ -502,6 +531,7 @@ export default function RegisterPage() {
             const result = await uploadToCloudinary(file);
             updates[field] = result.secure_url;
           } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.');
             console.error(`[Register] ${label} upload failed:`, uploadErr);
           }
         };
@@ -516,32 +546,36 @@ export default function RegisterPage() {
             const result = await uploadToCloudinary(verificationFile);
             updates.verification_doc_url = result.secure_url;
           } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.');
             console.error('[Register] Verification doc upload failed:', uploadErr);
           }
         }
 
         if (Object.keys(updates).length > 0) {
-          await supabase.from('contractors').update(updates).eq('id', contractorId);
+          await requireSaved(supabase.from('contractors').update(updates).eq('id', contractorId));
         }
 
         // ID docs
         if (docIdFront) {
           try {
             const result = await uploadToCloudinary(docIdFront);
-            await supabase.from('contractors').update({ doc_id_front: result.secure_url, id_verification_status: 'pending' }).eq('id', contractorId);
-          } catch (uploadErr) { console.error('[Register] ID Front upload failed:', uploadErr); }
+            await requireSaved(supabase.from('contractors').update({ doc_id_front: result.secure_url, id_verification_status: 'pending' }).eq('id', contractorId));
+          } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.'); console.error('[Register] ID Front upload failed:', uploadErr); }
         }
         if (docIdBack) {
           try {
             const result = await uploadToCloudinary(docIdBack);
-            await supabase.from('contractors').update({ doc_id_back: result.secure_url, id_verification_status: 'pending' }).eq('id', contractorId);
-          } catch (uploadErr) { console.error('[Register] ID Back upload failed:', uploadErr); }
+            await requireSaved(supabase.from('contractors').update({ doc_id_back: result.secure_url, id_verification_status: 'pending' }).eq('id', contractorId));
+          } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.'); console.error('[Register] ID Back upload failed:', uploadErr); }
         }
         if (docPassport) {
           try {
             const result = await uploadToCloudinary(docPassport);
-            await supabase.from('contractors').update({ doc_passport: result.secure_url, id_verification_status: 'pending' }).eq('id', contractorId);
-          } catch (uploadErr) { console.error('[Register] Passport upload failed:', uploadErr); }
+            await requireSaved(supabase.from('contractors').update({ doc_passport: result.secure_url, id_verification_status: 'pending' }).eq('id', contractorId));
+          } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.'); console.error('[Register] Passport upload failed:', uploadErr); }
         }
 
         // Company docs
@@ -549,8 +583,8 @@ export default function RegisterPage() {
           if (docBusinessRegForCompany) {
             try {
               const result = await uploadToCloudinary(docBusinessRegForCompany);
-              await supabase.from('contractors').update({ doc_business_reg: result.secure_url }).eq('id', contractorId);
-              await supabase.from('verifications').insert({
+              await requireSaved(supabase.from('contractors').update({ doc_business_reg: result.secure_url }).eq('id', contractorId));
+              const { data: pendingVerification, error: pendingError } = await supabase.from('verifications').insert({
                 user_id: userId,
                 filename: `biz-reg-${Date.now()}`,
                 original_filename: docBusinessRegForCompany.name,
@@ -559,16 +593,20 @@ export default function RegisterPage() {
                 status: 'PENDING',
                 confidence: 0,
                 source: 'manual_upload',
-              });
+              }).select('id').single();
+              if (pendingError) throw pendingError;
 
               // Also notify Python verification backend
-              uploadDocumentForVerification({
+              const verification = await uploadDocumentForVerification({
+                verificationId: pendingVerification.id,
                 file: docBusinessRegForCompany,
                 userId,
                 documentType: 'Business Registration',
                 documentUrl: result.secure_url,
-              }).catch((apiErr) => console.error('[Register] Verification API call failed:', apiErr));
-            } catch (uploadErr) { console.error('[Register] Company Biz Reg upload failed:', uploadErr); }
+              });
+                if (!verification.success) setDocumentWarning('Your document was saved for review, but automatic verification could not finish. ' + verification.message);
+            } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.'); console.error('[Register] Company Biz Reg upload failed:', uploadErr); }
           }
 
           const directorUrls: string[] = [];
@@ -577,10 +615,11 @@ export default function RegisterPage() {
             try {
               const result = await uploadToCloudinary(validDirectorFiles[i]);
               directorUrls.push(result.secure_url);
-            } catch (uploadErr) { console.error(`[Register] Director ${i + 1} ID upload failed:`, uploadErr); }
+            } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.'); console.error(`[Register] Director ${i + 1} ID upload failed:`, uploadErr); }
           }
           if (directorUrls.length > 0) {
-            await supabase.from('contractors').update({ director_ids: directorUrls }).eq('id', contractorId);
+            await requireSaved(supabase.from('contractors').update({ director_ids: directorUrls }).eq('id', contractorId));
           }
         }
 
@@ -589,7 +628,7 @@ export default function RegisterPage() {
           try {
             const existingUrl = updates.doc_id_front || '';
             if (existingUrl) {
-              await supabase.from('verifications').insert({
+              const { data: pendingVerification, error: pendingError } = await supabase.from('verifications').insert({
                 user_id: userId,
                 filename: `id-front-${Date.now()}`,
                 original_filename: docIdFront.name,
@@ -598,17 +637,21 @@ export default function RegisterPage() {
                 status: 'PENDING',
                 confidence: 0,
                 source: 'manual_upload',
-              });
+              }).select('id').single();
+              if (pendingError) throw pendingError;
 
               // Also notify Python verification backend
-              uploadDocumentForVerification({
+              const verification = await uploadDocumentForVerification({
+                verificationId: pendingVerification.id,
                 file: docIdFront,
                 userId,
                 documentType: 'National ID (Front)',
                 documentUrl: existingUrl,
-              }).catch((apiErr) => console.error('[Register] Verification API call failed:', apiErr));
+              });
+                if (!verification.success) setDocumentWarning('Your document was saved for review, but automatic verification could not finish. ' + verification.message);
             }
-          } catch (uploadErr) { console.error('[Register] Verification insert failed:', uploadErr); }
+          } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.'); console.error('[Register] Verification insert failed:', uploadErr); }
         }
 
         // Trade license verification for regulated trades
@@ -622,10 +665,11 @@ export default function RegisterPage() {
               const tradeDocResult = await uploadToCloudinary(tradeLicenseDoc);
               tradeUpdates.trade_license_doc_url = tradeDocResult.secure_url;
             } catch (uploadErr) {
+              setDocumentWarning('Some files could not be saved. Please sign in and check your profile documents before resubmitting.');
               console.error('[Register] Trade license upload failed:', uploadErr);
             }
           }
-          await supabase.from('contractors').update(tradeUpdates).eq('id', contractorId);
+          await requireSaved(supabase.from('contractors').update(tradeUpdates).eq('id', contractorId));
         }
       }
 
@@ -666,7 +710,7 @@ export default function RegisterPage() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/dashboard/tradesperson`,
+          redirectTo: `${window.location.origin}${__BASE_PATH__}dashboard/tradesperson`,
         },
       });
       if (error) {
@@ -704,6 +748,7 @@ export default function RegisterPage() {
     return (
       <SuccessModal
         email={registeredEmail}
+        warning={documentWarning || error}
         role={role}
         resending={resending}
         resentMessage={resentMessage}
@@ -743,6 +788,7 @@ export default function RegisterPage() {
               </div>
             )}
 
+            {documentWarning && <p role="status" className="mb-4 text-sm text-amber-800">{documentWarning}</p>}
             {successMessage && (
               <div className="mb-6 p-3 bg-green-50 border border-green-200 rounded-md">
                 <p className="text-green-700 text-sm font-medium">{successMessage}</p>
@@ -771,7 +817,10 @@ export default function RegisterPage() {
 
                   <ProfilePhotoStep
                     preview={profilePhotoPreview}
-                    onFileChange={(file: File | null) => handleProfilePhotoChange({ target: { files: file ? [file] : [] } } as React.ChangeEvent<HTMLInputElement>)}
+                    onFileChange={(file) => {
+                      setProfilePhotoFile(file);
+                      setProfilePhotoPreview(file ? URL.createObjectURL(file) : '');
+                    }}
                   />
 
                   <div>

@@ -29,6 +29,7 @@ interface UploadOptions {
   userId: string;
   documentType: string;
   documentUrl?: string;
+  verificationId?: string;
 }
 
 export async function uploadDocumentForVerification({
@@ -36,9 +37,10 @@ export async function uploadDocumentForVerification({
   userId,
   documentType,
   documentUrl,
+  verificationId,
 }: UploadOptions): Promise<{ success: boolean; message: string; record?: VerificationRecord }> {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('document', file);
   formData.append('user_id', userId);
   formData.append('document_type', documentType);
 
@@ -46,9 +48,16 @@ export async function uploadDocumentForVerification({
     formData.append('document_url', documentUrl);
   }
 
+  if (verificationId) formData.append('verification_id', verificationId);
+
   try {
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError || !session) {
+      return { success: false, message: 'Please sign in before submitting documents for verification.' };
+    }
     const res = await fetch(`${VERIFICATION_API_URL}/api/verify-with-crosscheck`, {
       method: 'POST',
+      headers: { Authorization: `Bearer ${session.access_token}` },
       body: formData,
     });
 
@@ -61,41 +70,17 @@ export async function uploadDocumentForVerification({
     }
 
     if (!res.ok) {
-      return { success: false, message: parsed?.message || parsed?.detail || `API error: ${res.status}` };
+      return { success: false, message: parsed?.error || parsed?.message || parsed?.detail || `API error: ${res.status}` };
     }
 
-    // Use the document_url from the backend response if provided, otherwise fall back to what we sent
-    const backendDocUrl = parsed.document_url || documentUrl || null;
-
-    // Insert verification record into Supabase
-    const { data: inserted, error: insertErr } = await supabase
-      .from('verifications')
-      .insert({
-        user_id: userId,
-        filename: parsed.filename || file.name,
-        original_filename: file.name,
-        document_type: documentType,
-        document_url: backendDocUrl,
-        status: parsed.status || 'pending_review',
-        confidence: parsed.confidence || 0,
-        source: 'verification_api',
-        extracted_data: parsed.extracted_data || null,
-        cross_check_results: parsed.cross_check_results || null,
-        errors: parsed.errors || null,
-        warnings: parsed.warnings || null,
-        log_url: parsed.log_url || null,
-      })
-      .select('*')
-      .single();
-
-    if (insertErr) {
-      return { success: false, message: `Saved to DB but failed to record: ${insertErr.message}` };
+    if (!parsed.success || !parsed.record?.id) {
+      return { success: false, message: 'The verification service did not return a saved submission.' };
     }
-
+    // The API owns persistence; never create a second browser-side result record.
     return {
       success: true,
-      message: 'Document uploaded and verified successfully.',
-      record: inserted as VerificationRecord,
+      message: 'Document submitted for verification.',
+      record: parsed.record as VerificationRecord,
     };
   } catch (err: any) {
     return { success: false, message: err?.message || 'Network error. Please try again.' };

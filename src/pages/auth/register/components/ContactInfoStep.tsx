@@ -17,6 +17,7 @@ export default function ContactInfoStep({
   onPhoneChange,
   onRegionChange,
   onLocationChange,
+  regions = REGIONS,
 }: Props) {
   return (
     <>
@@ -55,7 +56,7 @@ export default function ContactInfoStep({
           className="w-full px-4 py-2.5 text-sm border border-background-200/70 rounded-md bg-background-50 text-foreground-900 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-400 transition-colors cursor-pointer"
         >
           <option value="">Select your region</option>
-          {(regions || REGIONS).map((r) => (
+          {regions.map((r) => (
             <option key={r.value} value={r.value}>
               {r.label}
             </option>

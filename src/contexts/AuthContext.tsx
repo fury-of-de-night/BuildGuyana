@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, useCallback, useRef } f
 import type { ReactNode } from 'react';
 import type { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
+import { isAdminEmail } from '@/lib/admin';
 
 export interface Profile {
   id: string;
@@ -37,6 +38,8 @@ export interface ContractorProfile {
   doc_nis: string | null;
   doc_profile: string | null;
   doc_id_card: string | null;
+  doc_id_front?: string | null;
+  doc_id_back?: string | null;
   doc_passport: string | null;
   id_verification_status: string | null;
   trade_license_status: string | null;
@@ -84,12 +87,10 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@buildguyana.gy';
-
 function determineRole(profileData: Profile | null, userEmail: string | undefined): ActiveRole | null {
   if (!profileData) return null;
   // Admin check uses auth.users email — NOT profiles table
-  if (userEmail === ADMIN_EMAIL) return 'admin';
+  if (isAdminEmail(userEmail)) return 'admin';
 
   const hasTrade = !!profileData.is_tradesperson;
   const hasOwner = !!profileData.is_project_owner;
@@ -135,7 +136,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setProfile(null);
         setContractorProfile(null);
         // Still determine role from email alone (admin check)
-        setActiveRoleState(userEmail === ADMIN_EMAIL ? 'admin' : null);
+        setActiveRoleState(isAdminEmail(userEmail) ? 'admin' : null);
         return;
       }
 
@@ -196,7 +197,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Pure client-side role switch — no DB gatekeeping, no forced re-fetches.
   const setActiveRole = useCallback((role: ActiveRole) => {
     if (role === 'admin') {
-      setActiveRoleState('admin');
+      if (isAdminEmail(user?.email)) setActiveRoleState('admin');
       return;
     }
     // Safely check capabilities without throwing if profile is null
@@ -213,7 +214,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
     setActiveRoleState(role);
-  }, [profile]);
+  }, [profile, user?.email]);
 
   useEffect(() => {
     supabase.auth.getSession().then(async (result) => {
@@ -287,7 +288,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // isAdmin always checks user?.email (from auth.users) — never from profiles table
   const hasDualRoles = !!profile?.is_tradesperson && !!profile?.is_project_owner;
-  const isAdmin = user?.email === ADMIN_EMAIL;
+  const isAdmin = isAdminEmail(user?.email);
   const isDeleted = !!profile?.deleted_at;
   const needsProfileCompletion = !!profile && (
     !profile.full_name ||

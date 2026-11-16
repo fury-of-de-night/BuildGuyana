@@ -73,7 +73,7 @@ describe('TradeLicenseStep', () => {
         onDocChange={onDocChange}
       />
     );
-    const fileInput = screen.getByLabelText(/Trade License Document/i).querySelector('input[type="file"]');
+    const fileInput = screen.getByLabelText(/Trade License Document/i);
     fireEvent.change(fileInput, { target: { files: [new File(['x'], 'license.pdf')] } });
     expect(onDocChange).toHaveBeenCalledWith(expect.any(File));
   });

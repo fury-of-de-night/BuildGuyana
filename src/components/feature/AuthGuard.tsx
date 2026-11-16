@@ -9,12 +9,12 @@ interface AuthGuardProps {
 }
 
 export function AuthGuard({ children, requiredRole }: AuthGuardProps) {
-  const { user, profile, loading } = useAuth();
+  const { user, profile, loading, isAdmin } = useAuth();
   const { isDemo } = useDemo();
   const location = useLocation();
 
-  // Demo mode bypasses all auth checks
-  if (isDemo) {
+  // Demo mode never grants access to administration.
+  if (isDemo && requiredRole !== 'admin') {
     return <>{children}</>;
   }
 
@@ -34,12 +34,12 @@ export function AuthGuard({ children, requiredRole }: AuthGuardProps) {
   }
 
   // Tradesperson dashboard — only accessible if user is a tradesperson
-  if (requiredRole === 'tradesperson' && profile && !profile.is_tradesperson) {
+  if (requiredRole === 'tradesperson' && !profile?.is_tradesperson) {
     return <Navigate to="/register?role=tradesperson" replace />;
   }
 
   // Admin dashboard — only accessible to admin
-  if (requiredRole === 'admin' && profile && user.email === (process.env.ADMIN_EMAIL || 'admin@buildguyana.gy')) {
+  if (requiredRole === 'admin' && !isAdmin) {
     return <Navigate to="/" replace />;
   }
 

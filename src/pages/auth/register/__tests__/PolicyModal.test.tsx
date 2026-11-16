@@ -3,12 +3,13 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import PolicyModal from '../components/PolicyModal';
 
 describe('PolicyModal', () => {
-  const renderComponent = (isOpen = false, policyTexts = { privacy: '', cookie: '' }, policyActive = { privacy: false, cookie: false }, onAccept = vi.fn()) => {
+  const renderComponent = (isOpen = false, policyTexts = { privacy: '', cookie: '' }, policyActive = { privacy: false, cookie: false }, onAccept: () => void = vi.fn(), policyAccepting = false) => {
     return render(<PolicyModal
       isOpen={isOpen}
       policyTexts={policyTexts}
       policyActive={policyActive}
       onAccept={onAccept}
+      policyAccepting={policyAccepting}
     />);
   };
 
@@ -37,10 +38,9 @@ describe('PolicyModal', () => {
   });
 
   it('shows Accepting... state when policyAccepting is true', () => {
-    renderComponent(true, { privacy: '', cookie: '' }, { privacy: false, cookie: false }, () => {});
-    const button = screen.getByText('Agree');
-    // Simulate the button state change
-    fireEvent.click(button);
+    renderComponent(true, { privacy: '', cookie: '' }, { privacy: false, cookie: false }, vi.fn(), true);
+    const button = screen.getByRole('button', { name: 'Accepting...' });
+    expect(button).toBeDisabled();
     expect(button).toHaveTextContent('Accepting...');
   });
 });

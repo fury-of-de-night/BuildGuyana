@@ -366,7 +366,7 @@ export default function LoginPage() {
     setForgotLoading(true);
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(forgotEmail.trim(), {
-        redirectTo: `${window.location.origin}/login`,
+        redirectTo: `${window.location.origin}${__BASE_PATH__}reset-password`,
       });
       if (error) {
         setForgotMessage(error.message);
@@ -386,7 +386,7 @@ export default function LoginPage() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/dashboard/tradesperson`,
+          redirectTo: `${window.location.origin}${__BASE_PATH__}dashboard/tradesperson`,
         },
       });
       if (error) {
